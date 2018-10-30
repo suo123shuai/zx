@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsk.zx.pay.mapper.JskOrderDetailMapper">
+  <resultMap id="BaseResultMap" type="com.jsk.zx.pay.model.JskPersonOrderDetail">
+    <id column="PK_ID" jdbcType="INTEGER" property="pkId" />
+    <result column="ORDER_ID" jdbcType="VARCHAR" property="orderId" />
+    <result column="RECORD_ID" jdbcType="INTEGER" property="recordId" />
+  </resultMap>
+  
+  <resultMap type="com.jsk.zx.pay.model.MaiJiaId" id="BaseMap">
+  	<id column="pk_id" jdbcType="INTEGER" property="pkId"/>
+  	<result column="create_id" jdbcType="INTEGER" property="createId"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, ORDER_ID, RECORD_ID
+  </sql>
+  <sql id="create">
+  	PK_ID, CREATE_ID
+  </sql>
+  <select id="selectByKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jsk_person_order_detail
+    where ORDER_ID = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByaaKey" parameterType="Map" resultMap="BaseMap">
+  	select  <include refid="create"/> from
+  	<if test="type == '2'">
+  	</if>
+  	<if test="type == '3'">
+  	</if>
+  	<if test="type == '1'">
+  	</if>
+  	where PK_ID = #{pkId,jdbcType=VARCHAR}
+  </select>
+</mapper>

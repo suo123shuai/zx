@@ -1,0 +1,64 @@
+package com.jsk.zx.person.service;
+
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.person.model.JskPersonComment;
+import com.jsk.zx.person.model.JskPersonCommentDetail;
+
+public interface IJskPersonCommentService {
+
+	/**
+	 * @Title: findByRecordId
+	 * @Description: 查询评论
+	 * @author: suojinliang
+	 * @date: 2018年6月25日 
+	 * @param recordId 被评论人ID
+	 * @return
+	 * @throws Exception
+	 */
+	ResultUtil findByRecordId(Integer recordId, String type)throws Exception;
+	
+	/**
+	 * @Title: saveComment
+	 * @Description: 添加评论
+	 * @author: suojinliang
+	 * @date: 2018年6月25日 
+	 * @param jskPersonComment 评论信息
+	 * @return
+	 * @throws Exception
+	 */
+	ResultUtil saveComment(JskPersonComment jskPersonComment)throws Exception;
+	
+	/**
+	 * @Title: saveCommentDetail
+	 * @Description: 添加评论回复  每回复一次回复层级加一
+	 * @author: suojinliang
+	 * @date: 2018年6月30日 
+	 * @param jskPersonCommentDetail commentid 评论ID
+	 * @return
+	 * @throws Exception
+	 */
+	ResultUtil saveCommentDetail(JskPersonCommentDetail jskPersonCommentDetail)throws Exception;
+	
+	/**
+	 * @Title: deleteComment
+	 * @Description: 删除评论
+	 * @author: suojinliang
+	 * @date: 2018年6月30日 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	ResultUtil deleteComment(Integer id)throws Exception;
+	
+	/**
+	 * @Title: deleteCommentDetail
+	 * @Description: 
+	 * @author: suojinliang
+	 * @date: 2018年7月5日 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	ResultUtil deleteCommentDetail(Integer pkId)throws Exception;
+	
+}

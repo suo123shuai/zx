@@ -1,0 +1,42 @@
+package com.jsk.zx.person.service.impl;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.person.mapper.JskPersonMarketMapper;
+import com.jsk.zx.person.model.JskPersonMarket;
+import com.jsk.zx.person.service.IPersonMarketService;
+
+@Service
+public class JskPersonMarketServiceImpl implements IPersonMarketService{
+	
+	@Autowired
+	JskPersonMarketMapper jskPersonMarketMapper;
+	
+	@Override
+	/**
+	 * selectPersonMarket方法，    查询积分商城商品
+	 */
+	public ResultUtil selectPersonMarket() {
+		ResultUtil resu = new ResultUtil();
+		List<JskPersonMarket> list = jskPersonMarketMapper.selectPersonMarket();
+		if (list != null && !list.isEmpty()) {
+			resu.setId(0);
+			resu.setData(list);
+			resu.setMsg("成功");
+		} else {
+			resu.setId(1);
+			resu.setMsg("没有商品");
+		}
+		
+	
+		
+		return resu;
+				
+	}
+
+}

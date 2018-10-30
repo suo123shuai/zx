@@ -1,0 +1,41 @@
+package com.jsk.zx.index.service.impl;
+
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.jsk.base.service.BaseService;
+import com.jsk.zx.index.mapper.JskIndexNewsMapper;
+import com.jsk.zx.index.model.JskIndexNews;
+import com.jsk.zx.index.service.IJskIndexNewsService;
+import com.jsk.zx.login.common.ResultUtil;
+
+@Service
+public class JskIndexNewsServiceImpl extends BaseService implements IJskIndexNewsService {
+
+	@Autowired
+	private JskIndexNewsMapper jskIndexNewsMapper;
+
+	@Override
+	public ResultUtil findByType(String type) throws Exception {
+		ResultUtil retu = new ResultUtil();
+		if (!StringUtils.isBlank(type)) {
+			List<JskIndexNews> list = jskIndexNewsMapper.findByType(type);
+			if(list == null || list.size() == 0){
+				retu.setId(1);
+				retu.setMsg("未查到消息");
+				return retu;
+			}else{
+				retu.setId(0);
+				retu.setData(list);
+				return retu;
+			}
+		} else {
+			retu.setId(1);
+			retu.setMsg("未传入ID");
+			return retu;
+		}
+	}
+}

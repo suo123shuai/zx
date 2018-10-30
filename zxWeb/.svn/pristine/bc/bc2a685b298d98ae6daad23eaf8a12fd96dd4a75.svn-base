@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsk.zx.person.mapper.JskPersonOrderDetailMapper">
+  <resultMap id="BaseResultMap" type="com.jsk.zx.person.model.JskPersonOrderDetail">
+    <id column="PK_ID" jdbcType="INTEGER" property="pkId" />
+    <result column="ORDER_ID" jdbcType="VARCHAR" property="orderId" />
+    <result column="RECORD_ID" jdbcType="INTEGER" property="recordId" />
+    <result column="PAY_NUM" jdbcType="INTEGER" property="payNum" />
+    <result column="STANDARD" jdbcType="VARCHAR" property="standard" />
+    <result column="PRICE" jdbcType="REAL" property="price" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="RECORD_NAME" jdbcType="VARCHAR" property="recordName" />
+    <result column="RECORD_PRICE" jdbcType="REAL" property="recordPrice" />
+    <result column="RECORD_PHOTO" jdbcType="VARCHAR" property="recordPhoto" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, ORDER_ID, RECORD_ID, PAY_NUM, STANDARD, PRICE, CREATE_TIME, UPDATE_TIME, RECORD_NAME, 
+    RECORD_PRICE, RECORD_PHOTO
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jsk_person_order_detail
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jsk_person_order_detail
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </delete>
+  <insert id="saveOrderDetailSelective" parameterType="com.jsk.zx.person.model.JskPersonOrderDetail">
+    insert into jsk_person_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="recordId != null">
+        RECORD_ID,
+      </if>
+      <if test="payNum != null">
+        PAY_NUM,
+      </if>
+      <if test="standard != null">
+        STANDARD,
+      </if>
+      <if test="price != null">
+        PRICE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="recordName != null">
+        RECORD_NAME,
+      </if>
+      <if test="recordPrice != null">
+        RECORD_PRICE,
+      </if>
+      <if test="recordPhoto != null">
+        RECORD_PHOTO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="payNum != null">
+        #{payNum,jdbcType=INTEGER},
+      </if>
+      <if test="standard != null">
+        #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordName != null">
+        #{recordName,jdbcType=VARCHAR},
+      </if>
+      <if test="recordPrice != null">
+        #{recordPrice,jdbcType=REAL},
+      </if>
+      <if test="recordPhoto != null">
+        #{recordPhoto,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateOrder" parameterType="Map">
+   	  update jsk_person_order
+      set STATUS = #{status,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.jsk.zx.person.model.JskPersonOrderDetail">
+    update jsk_person_order_detail
+    <set>
+      <if test="orderId != null">
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordId != null">
+        RECORD_ID = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="payNum != null">
+        PAY_NUM = #{payNum,jdbcType=INTEGER},
+      </if>
+      <if test="standard != null">
+        STANDARD = #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        PRICE = #{price,jdbcType=REAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordName != null">
+        RECORD_NAME = #{recordName,jdbcType=VARCHAR},
+      </if>
+      <if test="recordPrice != null">
+        RECORD_PRICE = #{recordPrice,jdbcType=REAL},
+      </if>
+      <if test="recordPhoto != null">
+        RECORD_PHOTO = #{recordPhoto,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </update>
+</mapper>

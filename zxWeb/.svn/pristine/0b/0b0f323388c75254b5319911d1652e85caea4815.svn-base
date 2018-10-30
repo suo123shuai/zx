@@ -1,0 +1,44 @@
+package com.jsk.zx.login.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import net.sf.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.jsk.base.controller.BaseController;
+import com.jsk.zx.login.common.PictureUtils;
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.login.model.JskSysAnnexs;
+import com.jsk.zx.login.service.IPhotoService;
+
+/**
+ * @Title: PhotoController.java
+ * @Description: 添加图片
+ * 
+ */
+@Controller
+@RequestMapping("/photo")
+public class PhotoController extends BaseController {
+
+	@Autowired
+	private IPhotoService photoService;
+
+	@RequestMapping("/add")
+	@ResponseBody
+	/**
+	 * 
+	 *@Title: addPhotoGetPkID.java
+	 * @Description: 添加图片并的到该图片的pkId
+	 */
+	public String addPhotoGetPkID(JskSysAnnexs jskSysAnnex,
+			HttpServletRequest request) throws Exception {
+		ResultUtil resultUtil = photoService.addPhotoGetPkID(jskSysAnnex,
+				request);
+		return JSONObject.fromObject(resultUtil).toString();
+	}
+
+}

@@ -1,0 +1,20 @@
+package com.jsk.zx.index.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.jsk.zx.index.model.JskIndexTopNews;
+import com.jsk.zx.index.service.IJskIndexTopNewsService;
+import com.mltt.core.controller.BaseEntityController;
+
+/**
+ * @Title: JskIndexTopNewsController.java
+ * @Description: 大时圈 
+ * @author: lizp
+ * @date: 2018年8月1日 上午12:03:19
+ */
+@Controller
+@RequestMapping("/secure/topNews")
+public class JskIndexTopNewsController extends BaseEntityController<JskIndexTopNews, IJskIndexTopNewsService> {
+
+}

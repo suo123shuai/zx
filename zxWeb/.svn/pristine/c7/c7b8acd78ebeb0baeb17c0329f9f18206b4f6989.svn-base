@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jsk.zx.system.mapper.IJskSysDictMapper" >
+
+	<select id="findList" resultType="dict" >
+		select pk_id as pkId,dict_id as dictId,dict_name as dictName,dict_code as dictCode,dict_value as dictValue,
+		parent_id as parentId,number,status
+		from jsk_sys_dict jd
+		<include refid="where" />
+		order by dict_id 
+	</select>
+	<select id="findByDictId" resultType="Map" >
+		select dict_code as dictCode,dict_value as dictValue
+		from jsk_sys_dict jd
+		where dict_id = #{dictId}
+	</select>
+	<select id="edit" resultType="dict">
+		select pk_id as pkId,dict_id as dictId,dict_name as dictName,dict_code as dictCode,dict_value as dictValue,
+		parent_id as parentId,number,status
+		from jsk_sys_dict jd
+		where jd.pk_id=#{pkId,jdbcType=INTEGER}
+	</select>
+	<insert id="insert" parameterType="dict">
+		insert into jsk_sys_dict
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+		<if test="dictId != null" >
+        DICT_ID,
+      	</if>
+		<if test="dictName != null" >
+        DICT_NAME,
+      	</if>
+		<if test="dictCode != null" >
+        DICT_CODE,
+      	</if>
+		<if test="dictValue != null" >
+        DICT_VALUE,
+      	</if>
+		<if test="parentId != null" >
+        PARENT_ID,
+      	</if>
+		<if test="number != null" >
+        NUMBER,
+      	</if>
+		<if test="status != null" >
+        STATUS,
+      	</if>
+		<if test="createId != null" >
+        CREATE_ID,
+      	</if>
+		<if test="createTime != null" >
+        CREATE_TIME,
+      	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      	<if test="dictId != null" >
+        #{dictId,jdbcType=VARCHAR},
+      	</if>
+		<if test="dictName != null" >
+        #{dictName,jdbcType=VARCHAR},
+      	</if>
+		<if test="dictCode != null" >
+        #{dictCode,jdbcType=VARCHAR},
+      	</if>
+		<if test="dictValue != null" >
+        #{dictValue,jdbcType=VARCHAR},
+      	</if>
+		<if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      	</if>
+		<if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      	</if>
+		<if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      	</if>
+		<if test="createId != null" >
+        #{createId,jdbcType=INTEGER},
+      	</if>
+		<if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      	</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="dict">
+		update jsk_sys_dict jd
+		<set>
+		<if test="dictId != null" >
+        jd.dict_id=#{dictId,jdbcType=VARCHAR},
+      	</if>
+		<if test="dictName != null" >
+        jd.dict_name=#{dictName,jdbcType=VARCHAR},
+      	</if>
+		<if test="dictCode != null" >
+        jd.dict_code=#{dictCode,jdbcType=VARCHAR},
+      	</if>
+		<if test="dictValue != null" >
+        jd.dict_value=#{dictValue,jdbcType=VARCHAR},
+      	</if>
+		<if test="parentId != null" >
+        jd.parent_id=#{parentId,jdbcType=INTEGER},
+      	</if>
+		<if test="number != null" >
+        jd.number=#{number,jdbcType=INTEGER},
+      	</if>
+		<if test="status != null" >
+        jd.status=#{status,jdbcType=VARCHAR},
+      	</if>
+		<if test="updateId != null" >
+        jd.update_id = #{updateId,jdbcType=INTEGER},
+      	</if>
+		<if test="updateTime != null" >
+        jd.update_time = #{updateTime,jdbcType=TIMESTAMP},
+      	</if>
+		</set>
+		where PK_ID = #{pkId,jdbcType=INTEGER}
+	</update>
+	<sql id="where">
+		where 1=1
+		<if test="pkId!=null and pkId!=''">
+			and jd.pk_id=#{pkId}
+		</if>
+		<if test="dictId!=null and dictId!=''">
+			and jd.dict_id=#{dictId}
+		</if>
+		<if test="dictName!=null and dictName!=''">
+			and jd.dict_name like "%"#{dictName}"%"
+		</if>
+		<if test="status!=null and status!=''">
+			and jd.status=#{status}
+		</if>
+	</sql>
+</mapper>

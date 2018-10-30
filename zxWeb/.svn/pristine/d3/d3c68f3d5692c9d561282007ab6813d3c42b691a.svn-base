@@ -1,0 +1,68 @@
+package com.jsk.zx.login.service.impl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import com.jsk.base.service.BaseService;
+import com.jsk.zx.login.common.PictureUtils;
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.login.mapper.JskSysAnnexMapper;
+import com.jsk.zx.login.model.JskSysAnnexs;
+import com.jsk.zx.login.service.IPhotoService;
+
+@Service
+public class PhotoServiceImpl extends BaseService implements IPhotoService {
+
+	@Autowired
+	JskSysAnnexMapper jskSysAnnexMapper;
+
+	@Override
+	/**
+	 * addPhotoGetPkID方，    添加图片并返回该图片的PkId
+	 */
+	public ResultUtil addPhotoGetPkID(JskSysAnnexs jskSysAnnex,
+			HttpServletRequest request) throws Exception {
+		ResultUtil resu = new ResultUtil();
+		PictureUtils pictureUtils = new PictureUtils();
+		//判断图片类型和图片类型是否为空
+		if (("head".equals(jskSysAnnex.getType())
+				|| "id".equals(jskSysAnnex.getType())
+				|| "shop".equals(jskSysAnnex.getType()) || "license"
+					.equals(jskSysAnnex.getType()))
+				&& !StringUtils.isEmpty(jskSysAnnex.getFile())) {
+			String fileUrl = pictureUtils.uploadFile(jskSysAnnex.getFile(),
+					request, jskSysAnnex.getType());
+			
+			jskSysAnnex.setFilePath(fileUrl+jskSysAnnex.getFileSuffix());
+			try {
+				List<Integer> list = new ArrayList<Integer>();
+				jskSysAnnex.setCreateTime(new Date());
+				int i = jskSysAnnexMapper.insertSelective(jskSysAnnex);
+				if (i != 0) {
+					resu.setId(1);
+					list.add(jskSysAnnex.getPkId());
+					resu.setData(list);
+					resu.setMsg("图片添加成功,data数值表示图片的pkId");
+				} else {
+					resu.setId(0);
+					resu.setMsg("图片添加失败");
+				}
+			} catch (Exception e) {
+				resu.setId(2);
+				resu.setMsg("图片添加异常");
+				e.printStackTrace();
+			}
+			return resu;
+		}
+		resu.setId(3);
+		resu.setMsg("图片类型或数据未空");
+		return resu;
+	}
+}

@@ -1,0 +1,14 @@
+/**
+ * 
+ */
+package com.jsk.zx.sys.index.service;
+
+/**
+ * @Title: IJskIndexRecommendService.java
+ * @Description: TODO 
+ * @author: lizp
+ * @date: 2018年7月30日 下午5:33:23
+ */
+public interface IJskIndexRecommendService {
+
+}

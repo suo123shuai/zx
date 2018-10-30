@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jsk.zx.person.mapper.JskPersonPraiseMapper" >
+  <resultMap id="BaseResultMap" type="com.jsk.zx.person.model.JskPersonPraise" >
+    <id column="PK_ID" property="pkId" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="INTEGER" />
+    <result column="RECORD_ID" property="recordId" jdbcType="INTEGER" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    PK_ID, USER_ID, RECORD_ID, TYPE, CREATE_TIME
+  </sql>
+
+  <insert id="insertPersonPraise" parameterType="com.jsk.zx.person.model.JskPersonPraise" >
+  <selectKey keyProperty="pkId" order="AFTER" resultType="java.lang.Integer">  
+      SELECT LAST_INSERT_ID()  
+	</selectKey>
+    insert into jsk_person_praise
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="recordId != null" >
+        RECORD_ID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null" >
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <select id="selectByIdsAndType" resultMap="BaseResultMap" parameterType="com.jsk.zx.person.model.JskPersonPraise" >
+    select 
+    <include refid="Base_Column_List" />
+    from jsk_person_praise
+    where USER_ID = #{userId,jdbcType=INTEGER}
+    and RECORD_ID = #{recordId,jdbcType=INTEGER}
+    and TYPE = #{type,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateUserPraiseNum" parameterType="java.lang.Integer">
+       update jsk_sys_user set PRAISE_NUM = PRAISE_NUM + 1 where PK_ID = #{recordID}
+  </update>
+  
+  <update id="updateProductPraiseNum" parameterType="java.lang.Integer">
+       update jsk_index_product set PRAISE_NUM = PRAISE_NUM + 1 where PK_ID = #{recordID}
+  </update>
+  
+  <update id="updateServicePraiseNum" parameterType="java.lang.Integer">
+       update jsk_index_service set PRAISE_NUM = PRAISE_NUM + 1 where PK_ID = #{recordID}
+  </update>
+  
+  <update id="updateMarketPraiseNum" parameterType="java.lang.Integer">
+       update jsk_person_market set PRAISE_NUM = PRAISE_NUM + 1 where PK_ID = #{recordID}
+  </update>
+
+</mapper>

@@ -1,0 +1,55 @@
+package com.jsk.zx.person.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.jsk.base.controller.BaseController;
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.person.service.IPersonTransferDetailService;
+
+/**
+ * @Title: PersonMarketController.java
+ * @Description: 积分商城商品查询
+ * @author: liuyan
+ * 
+ */
+@Controller
+@RequestMapping("/transferDetail")
+public class PersonTransferDetailController extends BaseController {
+
+	@Autowired
+	private IPersonTransferDetailService personTrancsferDetailService;
+
+	// 提现明细查询
+	@RequestMapping("/selectTransferDetail")
+	@ResponseBody
+	public String selectPersonTransferDetail(int userId) {
+		ResultUtil re = new ResultUtil();
+		try {
+			re = personTrancsferDetailService.selectPersonTrancsferDetail(userId);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JSON.toJSONString(re);
+	}
+	
+	
+	// 后台审核提现申请查询
+		@RequestMapping("/selectTransferDetailByType")
+		@ResponseBody
+		public String selectPersonTransferDetailByType() {
+			ResultUtil re = new ResultUtil();
+			try {
+				re = personTrancsferDetailService.selectPersonTrancsferDetailByType();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return JSON.toJSONString(re);
+		}
+	
+}

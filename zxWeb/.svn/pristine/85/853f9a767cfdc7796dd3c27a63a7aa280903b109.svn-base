@@ -1,0 +1,66 @@
+package com.jsk.zx.login.controller;
+
+import net.sf.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.login.model.JskSysUser;
+import com.jsk.zx.login.service.IUserService;
+
+@Controller
+@RequestMapping("/user")
+public class UserController {
+
+	@Autowired
+	private IUserService user;
+
+	@RequestMapping("/findname")
+	@ResponseBody
+	public String findByName(String name) {
+		ResultUtil resultUtil;
+		try {
+			resultUtil = user.findByName(name);
+			return JSONObject.fromObject(resultUtil).toString();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @Title: saveOrUpdateUser
+	 * @Description:
+	 * @author: suojinliang
+	 * @date: 2018年6月21日
+	 * @param jskSysUser
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/updateuser")
+	@ResponseBody
+	public String saveOrUpdateUser(JskSysUser jskSysUser) throws Exception {
+		ResultUtil resultUtil = user.saveOrUpdateUser(jskSysUser);
+		return JSONObject.fromObject(resultUtil).toString();
+	}
+
+	@RequestMapping("/login")
+	@ResponseBody
+	public String userLogin(String loginName, String loginPwd) throws Exception {
+		ResultUtil resultUtil = user.userLogin(loginName, loginPwd);
+		return JSONObject.fromObject(resultUtil).toString();
+	}
+
+	@RequestMapping("/mobileLogin")
+	@ResponseBody
+	public String mobileLogin(String phone) throws Exception { 
+		ResultUtil resu = user.mobileLogin(phone);
+		return JSONObject.fromObject(resu).toString();
+	}
+
+}

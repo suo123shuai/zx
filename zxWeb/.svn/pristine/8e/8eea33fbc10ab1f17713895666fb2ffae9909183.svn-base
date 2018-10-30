@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsk.zx.person.mapper.JskPersonOrderDetailMapper">
+  <resultMap id="BaseResultMap" type="com.jsk.zx.person.model.JskPersonOrderDetail">
+    <id column="PK_ID" jdbcType="INTEGER" property="pkId" />
+    <result column="ORDER_ID" jdbcType="VARCHAR" property="orderId" />
+    <result column="RECORD_ID" jdbcType="INTEGER" property="recordId" />
+    <result column="PAY_NUM" jdbcType="INTEGER" property="payNum" />
+    <result column="STANDARD" jdbcType="VARCHAR" property="standard" />
+    <result column="PRICE" jdbcType="REAL" property="price" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="RECORD_NAME" jdbcType="VARCHAR" property="recordName" />
+    <result column="RECORD_PRICE" jdbcType="REAL" property="recordPrice" />
+    <result column="RECORD_PHOTO" jdbcType="VARCHAR" property="recordPhoto" />
+  </resultMap>
+  <resultMap id="WorkResultMap" type="com.jsk.zx.person.model.JskPersonOrderDetail">
+    <id column="PK_ID" jdbcType="INTEGER" property="pkId" />
+    <result column="RECORD_ID" jdbcType="INTEGER" property="recordId" />
+    <collection property="JskIndexService" javaType="java.util.List"
+			ofType="com.jsk.zx.person.model.JskIndexService">
+			<id column="dPK_ID" property="pkId" jdbcType="INTEGER" />
+			<collection property="JskIndexWork" javaType="java.util.List"
+			ofType="com.jsk.zx.index.model.JskIndexWork">
+			<id column="wPK_ID" property="pkId" jdbcType="INTEGER" />
+			<result column="WORK_NAME" property="workName" jdbcType="VARCHAR" />
+		</collection>
+	</collection>
+  </resultMap>
+  <resultMap id="ServiceResultMap" type="com.jsk.zx.person.model.JskPersonOrderDetail">
+    <id column="PK_ID" jdbcType="INTEGER" property="pkId" />
+    <result column="RECORD_ID" jdbcType="INTEGER" property="recordId" />
+    <collection property="JskIndexService" javaType="java.util.List"
+			ofType="com.jsk.zx.person.model.JskIndexService">
+		<id column="sPK_ID" property="pkId" jdbcType="INTEGER" />
+		<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="PRAISE_NUM" property="praiseNum" jdbcType="INTEGER" />
+        <result column="AREA" property="area" jdbcType="REAL" />
+		<result column="START_DATE" property="startDate" jdbcType="DATE" />
+        <result column="END_DATE" property="endDate" jdbcType="DATE" />
+        <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+            <collection property="JskSysUser" javaType="java.util.List"
+			ofType="com.jsk.zx.index.model.JskSysUser">
+			<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		</collection>
+	</collection>	
+  </resultMap>
+  <sql id="Service_Column_List">
+    d.PK_ID,d.RECORD_ID,s.PK_ID sPK_ID,s.TITLE,s.PRAISE_NUM,s.ADDRESS,s.AREA,s.START_DATE,s.END_DATE,s.REMARK,u.USER_NAME
+  </sql>
+  <sql id="Base_Column_List">
+    PK_ID, ORDER_ID, RECORD_ID, PAY_NUM, STANDARD, PRICE, CREATE_TIME, UPDATE_TIME, RECORD_NAME, 
+    RECORD_PRICE, RECORD_PHOTO
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jsk_person_order_detail
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jsk_person_order_detail
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </delete>
+  <insert id="saveOrderDetailSelective" parameterType="com.jsk.zx.person.model.JskPersonOrderDetail">
+    insert into jsk_person_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="recordId != null">
+        RECORD_ID,
+      </if>
+      <if test="payNum != null">
+        PAY_NUM,
+      </if>
+      <if test="standard != null">
+        STANDARD,
+      </if>
+      <if test="price != null">
+        PRICE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="recordName != null">
+        RECORD_NAME,
+      </if>
+      <if test="recordPrice != null">
+        RECORD_PRICE,
+      </if>
+      <if test="recordPhoto != null">
+        RECORD_PHOTO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="payNum != null">
+        #{payNum,jdbcType=INTEGER},
+      </if>
+      <if test="standard != null">
+        #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordName != null">
+        #{recordName,jdbcType=VARCHAR},
+      </if>
+      <if test="recordPrice != null">
+        #{recordPrice,jdbcType=REAL},
+      </if>
+      <if test="recordPhoto != null">
+        #{recordPhoto,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateOrder" parameterType="Map">
+   	  update jsk_person_order
+      set STATUS = #{status,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.jsk.zx.person.model.JskPersonOrderDetail">
+    update jsk_person_order_detail
+    <set>
+      <if test="orderId != null">
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="recordId != null">
+        RECORD_ID = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="payNum != null">
+        PAY_NUM = #{payNum,jdbcType=INTEGER},
+      </if>
+      <if test="standard != null">
+        STANDARD = #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        PRICE = #{price,jdbcType=REAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordName != null">
+        RECORD_NAME = #{recordName,jdbcType=VARCHAR},
+      </if>
+      <if test="recordPrice != null">
+        RECORD_PRICE = #{recordPrice,jdbcType=REAL},
+      </if>
+      <if test="recordPhoto != null">
+        RECORD_PHOTO = #{recordPhoto,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </update>
+  
+  <sql id="Work_Column_List">
+    group_concat(CONCAT(w.WORK_NAME,sw.REQ_NUM))AS WORK_NAME
+  </sql>
+  <select id="findWorkTypeByRecordId" resultMap="WorkResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Work_Column_List" />
+		from jsk_person_order_detail d
+		LEFT JOIN jsk_index_service s on s.PK_ID=d.RECORD_ID
+        LEFT JOIN jsk_service_work sw ON sw.SERVICE_ID = s.PK_ID
+        LEFT JOIN jsk_index_work w ON sw.WORK_ID = w.PK_ID
+        WHERE
+	    d.RECORD_ID= #{recordId}
+        GROUP  BY d.RECORD_ID
+	</select>
+	<select id="findServiceOrderDetailByRecordId" resultMap="ServiceResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Service_Column_List" />
+		from jsk_person_order_detail d
+		LEFT JOIN jsk_index_service s on s.PK_ID=d.RECORD_ID
+        LEFT JOIN jsk_sys_user u on s.CREATE_ID=u.PK_ID
+        WHERE
+	    d.RECORD_ID= #{recordId}
+	</select>
+  
+</mapper>

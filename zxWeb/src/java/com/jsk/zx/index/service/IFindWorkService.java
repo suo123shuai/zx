@@ -1,0 +1,16 @@
+/**
+ * 
+ */
+
+package com.jsk.zx.index.service;
+import com.jsk.zx.login.common.ResultUtil;
+
+public interface IFindWorkService {
+
+	 ResultUtil selectWork() throws Exception;
+	 
+	 ResultUtil findWorkByRequire(String address,String title) throws Exception;
+    
+	 ResultUtil selectWorkById(int pkId) throws Exception;
+	 
+}

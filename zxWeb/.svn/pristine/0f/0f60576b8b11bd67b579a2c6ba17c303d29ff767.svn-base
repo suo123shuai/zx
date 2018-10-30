@@ -1,0 +1,32 @@
+package com.jsk.zx.index.controller;
+
+import net.sf.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.jsk.zx.index.service.IJskIndexNewsService;
+import com.jsk.zx.login.common.ResultUtil;
+
+@Controller
+@RequestMapping("/news")
+public class JskIndexNewsController {
+
+	@Autowired
+	private IJskIndexNewsService jskIndexNewsService;
+	
+	@RequestMapping("/findByType")
+	@ResponseBody
+	public String findByType(Integer type){
+		try {
+			ResultUtil resultUtil = jskIndexNewsService.findByType(type);
+			return JSONObject.fromObject(resultUtil).toString();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+}

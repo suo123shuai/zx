@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsk.zx.person.mapper.JskPersonAddressMapper">
+	<resultMap id="BaseResultMap" type="com.jsk.zx.person.model.JskPersonAddress">
+		<id column="PK_ID" jdbcType="INTEGER" property="pkId" />
+		<result column="USER_ID" jdbcType="INTEGER" property="userId" />
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+		<result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+		<result column="REGION" jdbcType="VARCHAR" property="region" />
+		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+		<result column="IS_DEFAULT" jdbcType="VARCHAR" property="isDefault" />
+		<result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		PK_ID, USER_ID, USER_NAME, MOBILE, REGION, ADDRESS, IS_DEFAULT, CREATE_TIME,
+		UPDATE_TIME
+	</sql>
+	<select id="selectByExample" parameterType="com.jsk.zx.person.model.JskPersonAddressExample"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from jsk_person_address
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_person_address
+		where PK_ID = #{pkId,jdbcType=INTEGER}
+	</select>
+	<select id="selectByinKey" parameterType="Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_person_address
+		where USER_ID = #{userId,jdbcType=INTEGER}
+		and IS_DEFAULT = '1'
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from jsk_person_address
+		where PK_ID = #{pkId,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.jsk.zx.person.model.JskPersonAddressExample">
+		delete from jsk_person_address
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.jsk.zx.person.model.JskPersonAddress">
+		insert into jsk_person_address (PK_ID, USER_ID, USER_NAME,
+		MOBILE, REGION, ADDRESS,
+		IS_DEFAULT, CREATE_TIME, UPDATE_TIME
+		)
+		values (#{pkId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+		#{userName,jdbcType=VARCHAR},
+		#{mobile,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+		#{isDefault,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.jsk.zx.person.model.JskPersonAddress">
+		insert into jsk_person_address
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				PK_ID,
+			</if>
+			<if test="userId != null">
+				USER_ID,
+			</if>
+			<if test="userName != null">
+				USER_NAME,
+			</if>
+			<if test="mobile != null">
+				MOBILE,
+			</if>
+			<if test="region != null">
+				REGION,
+			</if>
+			<if test="address != null">
+				ADDRESS,
+			</if>
+			<if test="isDefault != null">
+				IS_DEFAULT,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				#{pkId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="region != null">
+				#{region,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+				#{isDefault,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.jsk.zx.person.model.JskPersonAddressExample"
+		resultType="java.lang.Long">
+		select count(*) from jsk_person_address
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+
+
+	<update id="updateByExampleSelective" parameterType="map">
+		update jsk_person_address
+		<set>
+			<if test="record.pkId != null">
+				PK_ID = #{record.pkId,jdbcType=INTEGER},
+			</if>
+			<if test="record.userId != null">
+				USER_ID = #{record.userId,jdbcType=INTEGER},
+			</if>
+			<if test="record.userName != null">
+				USER_NAME = #{record.userName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.mobile != null">
+				MOBILE = #{record.mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="record.region != null">
+				REGION = #{record.region,jdbcType=VARCHAR},
+			</if>
+			<if test="record.address != null">
+				ADDRESS = #{record.address,jdbcType=VARCHAR},
+			</if>
+			<if test="record.isDefault != null">
+				IS_DEFAULT = #{record.isDefault,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createTime != null">
+				CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.updateTime != null">
+				UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update jsk_person_address
+		set PK_ID = #{record.pkId,jdbcType=INTEGER},
+		USER_ID = #{record.userId,jdbcType=INTEGER},
+		USER_NAME = #{record.userName,jdbcType=VARCHAR},
+		MOBILE = #{record.mobile,jdbcType=VARCHAR},
+		REGION = #{record.region,jdbcType=VARCHAR},
+		ADDRESS = #{record.address,jdbcType=VARCHAR},
+		IS_DEFAULT = #{record.isDefault,jdbcType=VARCHAR},
+		CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.jsk.zx.person.model.JskPersonAddress">
+		update jsk_person_address
+		<set>
+			<if test="userId != null">
+				USER_ID = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="userName != null">
+				USER_NAME = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				MOBILE = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="region != null">
+				REGION = #{region,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+				IS_DEFAULT = #{isDefault,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where PK_ID = #{pkId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.jsk.zx.person.model.JskPersonAddress">
+		update jsk_person_address
+		set USER_ID = #{userId,jdbcType=INTEGER},
+		USER_NAME = #{userName,jdbcType=VARCHAR},
+		MOBILE = #{mobile,jdbcType=VARCHAR},
+		REGION = #{region,jdbcType=VARCHAR},
+		ADDRESS = #{address,jdbcType=VARCHAR},
+		IS_DEFAULT = #{isDefault,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		where PK_ID = #{pkId,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -1,0 +1,9 @@
+package com.jsk.zx.person.service;
+
+import com.jsk.zx.login.common.ResultUtil;
+
+public  interface IPersonMarketService {
+	
+	ResultUtil selectPersonMarket() throws Exception;
+
+}

@@ -1,0 +1,55 @@
+package com.jsk.zx.login.service;
+
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.login.model.JskSysUser;
+
+
+public interface IUserService {
+
+	/**
+	 * 
+	 * @Title: findByName
+	 * @Description: 判断用户名是否注册
+	 * @author: suojinliang
+	 * @date: 2018年6月21日 
+	 * @param jskSysUser
+	 * @return
+	 * @throws Exception
+	 */
+	ResultUtil findByName(String name) throws Exception;
+	
+	/**
+	 * 
+	 * @Title: saveOrUpdateUser
+	 * @Description: 根据jskSysUser是否有pkid来判断增加或更改
+	 * @author: suojinliang
+	 * @date: 2018年6月21日 
+	 * @param jskSysUser
+	 * @return 如果是增加用户返回用户主键ID
+	 * @throws Exception
+	 */
+	ResultUtil saveOrUpdateUser(JskSysUser jskSysUser) throws Exception;
+	
+	/**
+	 * @Title: userLogin
+	 * @Description: 根据用户名密码登录
+	 * @author: suojinliang
+	 * @date: 2018年7月3日 
+	 * @param loginName
+	 * @param loginPwd
+	 * @return
+	 * @throws Exception
+	 */
+	ResultUtil userLogin(String loginName, String loginPwd) throws Exception;
+	
+	/**
+	 * @Title: mobileLogin
+	 * @Description:根据电话登录
+	 * @author: suojinliang
+	 * @date: 2018年7月3日 
+	 * @param mobile
+	 * @return
+	 * @throws Exception
+	 */
+	ResultUtil mobileLogin(String mobile)throws Exception;
+}

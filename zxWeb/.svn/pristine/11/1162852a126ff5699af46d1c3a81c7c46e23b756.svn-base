@@ -1,0 +1,9 @@
+driverClassName=oracle.jdbc.driver.OracleDriver
+url=jdbc:oracle:thin:@localhost:1521:mltt
+username=hzmt
+password=hzmt
+initialSize=10
+maxActive=300
+maxIdle=30
+minIdle=10
+maxWait=60000

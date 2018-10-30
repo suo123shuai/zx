@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jsk.zx.index.mapper.TrollMapper" >
+  <resultMap id="BaseResultMap" type="com.jsk.zx.index.model.JskIndexTroll" >
+    <id column="tPK_ID" property="pkId" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="NUMBER" property="number" jdbcType="INTEGER" />
+    <result column="PHOTO" property="photo" jdbcType="INTEGER" />
+    <result column="IS_SHOW" property="isShow" jdbcType="OTHER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_ID" property="createId" jdbcType="INTEGER" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_ID" property="updateId" jdbcType="INTEGER" />
+    <collection property="JskSysAnnex" javaType="java.util.List"
+			ofType="com.jsk.zx.login.model.JskSysAnnex">
+			<id column="PK_ID" property="pkId" jdbcType="INTEGER" />
+			<result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+		</collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    t.PK_ID tPK_ID, t.TITLE, t.SUMMARY, t.CONTENT, t.NUMBER, t.PHOTO, t.IS_SHOW, t.CREATE_TIME, t.CREATE_ID, t.UPDATE_TIME, 
+    t.UPDATE_ID,a.pk_id,a.FILE_PATH
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from jsk_index_troll t,
+    jsk_sys_annex a
+    where t.photo=a.pk_id
+  </select>
+</mapper>

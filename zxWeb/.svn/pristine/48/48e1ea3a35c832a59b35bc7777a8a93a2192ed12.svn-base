@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jsk.zx.person.mapper.JskPersonOrderMapper">
+	<resultMap id="BaseResultMap" type="com.jsk.zx.person.model.JskPersonOrder">
+		<id column="PK_ID" property="pkId" jdbcType="VARCHAR" />
+		<result column="USER_ID" property="userId" jdbcType="INTEGER" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="PAY_NUM" property="payNum" jdbcType="INTEGER" />
+		<result column="PRICE" property="price" jdbcType="REAL" />
+		<result column="PAY_TYPE" property="payType" jdbcType="VARCHAR" />
+		<result column="ADDRESS_ID" property="addressId" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="EXPRESS" property="express" jdbcType="VARCHAR" />
+		<result column="EXPRESS_TYPE" property="expressType" jdbcType="VARCHAR" />
+        <collection property="JskPersonAddress" javaType="java.util.List"
+			ofType="com.jsk.zx.person.model.JskPersonAddress">
+			<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+			<result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+			<result column="REGION" property="region" jdbcType="VARCHAR" />
+			<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+		</collection>
+		<collection property="JskPersonOrderDetail" javaType="java.util.List"
+			ofType="com.jsk.zx.person.model.JskPersonOrderDetail">
+			<id column="dPK_ID" property="pkId" jdbcType="INTEGER" />
+			<result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+			<result column="RECORD_ID" property="recordId" jdbcType="INTEGER" />
+			<result column="PAY_NUM" property="payNum" jdbcType="INTEGER" />
+			<result column="STANDARD" property="standard" jdbcType="VARCHAR" />
+			<result column="dPRICE" property="price" jdbcType="REAL" />
+			<result column="RECORD_NAME" property="recordName" jdbcType="VARCHAR" />
+			<result column="RECORD_PRICE" property="recordPrice" jdbcType="REAL" />
+			<result column="RECORD_PHOTO" property="recordPhoto" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		o.PK_ID, o.USER_ID, o.TYPE, o.STATUS, o.PAY_NUM,o.PRICE,
+		o.PAY_TYPE,o.ADDRESS_ID,o.EXPRESS,o.EXPRESS_TYPE,
+		o.CREATE_TIME,a.ADDRESS,a.REGION,a.USER_NAME,a.MOBILE,
+		o.UPDATE_TIME,d.PK_ID
+		dPK_ID,d.ORDER_ID,d.RECORD_ID,d.PAY_NUM,d.STANDARD,d.PRICE
+		dPRICE,d.RECORD_NAME,d.RECORD_PRICE,d.RECORD_PHOTO
+	</sql>
+	<sql id="Product_Column_List">
+		o.PK_ID, o.USER_ID, o.TYPE, o.STATUS, o.PAY_NUM,o.PRICE,
+		o.PAY_TYPE,o.ADDRESS_ID,o.EXPRESS,o.EXPRESS_TYPE,
+		o.CREATE_TIME,a.ADDRESS,a.REGION,a.USER_NAME,a.MOBILE,
+		o.UPDATE_TIME,d.PK_ID
+		dPK_ID,d.ORDER_ID,d.RECORD_ID,d.PAY_NUM,d.STANDARD,d.PRICE
+		dPRICE,d.RECORD_NAME,d.RECORD_PRICE,d.RECORD_PHOTO
+	</sql>
+	<select id="findPersonOrderById" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_person_order o
+		left join
+		jsk_person_order_detail d
+		ON d.ORDER_ID=
+		o.PK_ID
+		left join jsk_person_address a
+		on o.ADDRESS_ID=a.PK_ID
+		where o.USER_ID =
+		#{userId,jdbcType=INTEGER}
+		and o.STATUS=#{status}
+		GROUP BY o.PK_ID
+	</select>
+	
+	<select id="findServiceOrderById" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_person_order o
+		left join
+		jsk_person_order_detail d
+		ON d.ORDER_ID=
+		o.PK_ID
+		left join jsk_person_address a
+		on o.ADDRESS_ID=a.PK_ID
+		where o.USER_ID =
+		#{userId,jdbcType=INTEGER}
+		and o.TYPE=1
+		GROUP BY o.PK_ID
+	</select>
+	<select id="findProductOrderByRecordId" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Product_Column_List" />
+		from jsk_person_order o
+		left join
+		jsk_person_order_detail d
+		ON d.ORDER_ID=
+		o.PK_ID
+		left join jsk_person_address a
+		on o.ADDRESS_ID=a.PK_ID
+		where d.RECORD_ID =
+		#{recordId,jdbcType=INTEGER} and
+		o.TYPE=#{type} and o.STATUS=#{status} and a.IS_DEFAULT = 1
+	</select>
+	
+	<select id="findServiceOrderByRecordId" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Product_Column_List" />
+		from jsk_person_order o
+		left join
+		jsk_person_order_detail d
+		ON d.ORDER_ID
+		=
+		o.PK_ID
+		left join jsk_person_address a
+		on o.ADDRESS_ID=a.PK_ID
+		where d.RECORD_ID =
+		#{recordId,jdbcType=INTEGER} and
+		o.TYPE=#{type} and o.STATUS=#{status} and a.IS_DEFAULT = 1
+	</select>
+
+	<insert id="saveOrder" parameterType="com.jsk.zx.person.model.JskPersonOrder">
+		insert into jsk_person_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				PK_ID,
+			</if>
+			<if test="userId != null">
+				USER_ID,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="payNum != null">
+				PAY_NUM,
+			</if>
+			<if test="price != null">
+				PRICE,
+			</if>
+			<if test="payType != null">
+				PAY_TYPE,
+			</if>
+			<if test="addressId != null">
+				ADDRESS_ID,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				#{pkId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="payNum != null">
+				#{payNum,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=REAL},
+			</if>
+			<if test="payType != null">
+				#{payType,jdbcType=VARCHAR},
+			</if>
+			<if test="addressId != null">
+				#{addressId,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="findServiceOrderById" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_person_order o
+		left join
+		jsk_person_order_detail d
+		ON d.ORDER_ID=
+		o.PK_ID
+		where o.USER_ID =
+		#{userId,jdbcType=INTEGER}
+		and o.TYPE=1
+		GROUP BY o.PK_ID
+	</select>
+
+	<select id="selectServiceRecordId" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select PK_ID from jsk_index_service where CREATE_ID=#{userId}
+	</select>
+
+	<select id="selectProductRecordId" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select PK_ID from jsk_index_product where CREATE_ID=#{userId}
+	</select>
+	<sql id="Base_Column_order">
+    	PK_ID, USER_ID, TYPE, STATUS, PAY_NUM, PRICE, PAY_TYPE, ADDRESS_ID, CREATE_TIME, 
+   	 	UPDATE_TIME
+    </sql>
+	<select id="findPersonOrderByOrderId" parameterType="String" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_order"/>
+		from jsk_person_order
+		where pk_id = #{orderId}
+	</select>
+	<update id="updateOrderById" parameterType="Map" >
+		update jsk_person_order set STATUS = #{status,jdbcType=VARCHAR} where PK_ID = #{orderId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateOrderExpressById" parameterType="Map" >
+		update jsk_person_order
+		set EXPRESS=#{express},
+		EXPRESS_TYPE=#{expressType}
+		where PK_ID=#{pkId}
+	</update>
+	
+	<update id="updAddress" parameterType="Map">
+		update jsk_person_order set ADDRESS_ID = #{addressId,jdbcType=INTEGER} where PK_ID = #{orderId,jdbcType=VARCHAR}
+	</update>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsk.zx.business.mapper.IDemoMapper">
+	<resultMap id="BaseResultMap" type="com.jsk.zx.business.model.JskIndexService">
+		<id column="PK_ID" property="pkId" jdbcType="INTEGER" />
+	    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+	    <result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
+	    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+	    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+	    <result column="AREA" property="area" jdbcType="REAL" />
+	    <result column="START_DATE" property="startDate" jdbcType="DATE" />
+	    <result column="END_DATE" property="endDate" jdbcType="DATE" />
+	    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+	    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+	    <result column="PHOTO" property="photo" jdbcType="INTEGER" />
+	    <result column="PRICE" property="price" jdbcType="REAL" />
+	    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+	    <result column="PRAISE_NUM" property="praiseNum" jdbcType="INTEGER" />
+	    <result column="COMMENT_NUM" property="commentNum" jdbcType="INTEGER" />
+	    <result column="WORK_ID" property="workId" jdbcType="INTEGER" />
+	    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="CREATE_ID" property="createId" jdbcType="INTEGER" />
+	    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+	    <result column="UPDATE_ID" property="updateId" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="column_list">
+		PK_ID, TITLE, SUMMARY, CONTENT, ADDRESS, AREA, START_DATE, END_DATE, TYPE, REMARK, 
+    	PHOTO, PRICE, STATUS, PRAISE_NUM, COMMENT_NUM, WORK_ID, CREATE_TIME, CREATE_ID, UPDATE_TIME, 
+    	UPDATE_ID
+	</sql>
+
+	<select id="getTotalRows" resultType="java.lang.Long">
+		select count(PK_ID) from jsk_index_service
+		<include refid="where" />
+	</select>
+
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="column_list" />
+		from jsk_index_service
+		<include refid="where" /> 
+		<if test="pageBean!=null">
+			<include refid="pageLimit.limitPageSart" />
+			jsk_index_service
+			<include refid="pageLimit.limitPageEnd" />
+		</if>
+	</select>
+	
+	<sql id="where">
+		where STATUS = #{status,jdbcType=VARCHAR} 
+	</sql>
+	
+</mapper>

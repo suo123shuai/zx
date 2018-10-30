@@ -1,0 +1,61 @@
+package com.jsk.zx.person.service.impl;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.person.mapper.JskPersonPraiseMapper;
+import com.jsk.zx.person.model.JskPersonPraise;
+import com.jsk.zx.person.service.IPersonPraiseService;
+
+@Service
+public class PersonPraiseServiceImpl implements IPersonPraiseService {
+
+	@Autowired
+	JskPersonPraiseMapper jskPersonPraiseMapper;
+	
+	@Override
+	/**
+	 * insertPraise方法，    点赞功能
+	 */
+	public ResultUtil insertPraise(JskPersonPraise jskPersonPraise) {
+		ResultUtil resu = new ResultUtil();
+		JskPersonPraise praise =jskPersonPraiseMapper.selectByIdsAndType(jskPersonPraise);
+		if( praise == null || "".equals(praise)){
+			
+			try {
+				jskPersonPraise.setCreateTime(new Date());
+				int i= jskPersonPraiseMapper.insertPersonPraise(jskPersonPraise);
+				
+				if(i == 0){
+					resu.setId(1);
+					resu.setMsg("点赞失败");
+				}else{
+					String type=jskPersonPraise.getType();
+					int recordId=jskPersonPraise.getRecordId();
+					if(type.equals("1")){
+						jskPersonPraiseMapper.updateUserPraiseNum(recordId);//更新用户表中的点赞数
+					}else if(type.equals("2")){
+						jskPersonPraiseMapper.updateProductPraiseNum(recordId);//更新产品表中的点赞数
+					}else if(type.equals("3")){
+						jskPersonPraiseMapper.updateServicePraiseNum(recordId);//更新服务表中的点赞数
+					}else if(type.equals("4")){
+						jskPersonPraiseMapper.updateMarketPraiseNum(recordId);//更新积分商城中的点赞数
+					}
+					resu.setId(0);
+					resu.setMsg("点赞成功");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			resu.setId(2);
+			resu.setMsg("已点赞，不可重复点赞！");
+		}
+		
+		return resu;
+				
+	}
+}

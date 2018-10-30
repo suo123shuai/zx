@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsk.zx.pay.mapper.JskUserNewsMapper">
+  <resultMap id="BaseResultMap" type="com.jsk.zx.pay.model.JskIndexUserNews">
+    <id column="PK_ID" jdbcType="INTEGER" property="pkId" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="NEWS_ID" jdbcType="INTEGER" property="newsId" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_ID" jdbcType="INTEGER" property="createId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, USER_ID, NEWS_ID, STATUS, CREATE_TIME, CREATE_ID
+  </sql>
+  <insert id="insertSelective" parameterType="com.jsk.zx.pay.model.JskIndexUserNews">
+    insert into jsk_index_user_news
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="newsId != null">
+        NEWS_ID,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createId != null">
+        CREATE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="newsId != null">
+        #{newsId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null">
+        #{createId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

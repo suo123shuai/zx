@@ -1,0 +1,8 @@
+package com.jsk.zx.sys.index.mapper;
+
+import com.jsk.zx.index.model.JskIndexKnowledge;
+import com.mltt.core.mapper.IBaseMapper;
+
+public interface IJskIndexKnowledgeMapper extends IBaseMapper<JskIndexKnowledge> {
+
+}

@@ -1,0 +1,40 @@
+package com.jsk.zx.person.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.person.mapper.JskPersonTrancsferDetailMapper;
+import com.jsk.zx.person.model.JskPersonTransferDetail;
+import com.jsk.zx.person.service.IPersonTransferDetailService;
+
+public class PersonTransferDetailServiceImpl implements IPersonTransferDetailService{
+	
+	@Autowired
+	JskPersonTrancsferDetailMapper trancsferDetailMapper;
+	
+	@Override
+	/**
+	 * selectPersonMarket方法，    查询积分商城商品
+	 */
+	public ResultUtil selectPersonTrancsferDetail(int userId) {
+		ResultUtil resu = new ResultUtil();
+		List<JskPersonTransferDetail> list = trancsferDetailMapper.selectPersonTrancsferDetail(userId);
+		if (list != null && !list.isEmpty()) {
+			resu.setId(0);
+			resu.setData(list);
+			resu.setMsg("成功");
+		} else {
+			resu.setId(1);
+			resu.setData(list);
+			resu.setMsg("没有交易");
+		}
+		
+	
+		
+		return resu;
+				
+	}
+
+}

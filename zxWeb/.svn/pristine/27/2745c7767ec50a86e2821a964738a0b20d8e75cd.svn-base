@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jsk.zx.person.mapper.JskPersonTrancsferDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.jsk.zx.person.model.JskPersonTransferDetail" >
+    <id column="PK_ID" property="pkId" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="INTEGER" />
+    <result column="MONEY" property="money" jdbcType="FLOAT" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    PK_ID, USER_ID, MONEY, TYPE, CREATE_TIME
+  </sql>
+  
+  
+  <select id="selectPersonTrancsferDetail" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from jsk_person_transfer_detail
+    where USER_ID = #{userId,jdbcType=INTEGER}
+    and TYPE = 2
+  </select>
+  
+
+</mapper>

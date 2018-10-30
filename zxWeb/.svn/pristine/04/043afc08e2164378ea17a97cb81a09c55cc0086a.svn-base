@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsk.zx.person.mapper.JskPersonMarketMapper">
+	<resultMap id="BaseResultMap" type="com.jsk.zx.person.model.JskPersonMarket">
+		<id column="PK_ID" jdbcType="INTEGER" property="pkId" />
+		<result column="TITLE" jdbcType="VARCHAR" property="title" />
+		<result column="SUMMARY" jdbcType="VARCHAR" property="summary" />
+		<result column="CONTENT" jdbcType="VARCHAR" property="content" />
+		<result column="TYPE" jdbcType="VARCHAR" property="type" />
+		<result column="PHOTO" jdbcType="INTEGER" property="photo" />
+		<result column="PRICE" jdbcType="REAL" property="price" />
+		<result column="STATUS" jdbcType="VARCHAR" property="status" />
+		<result column="PRAISE_NUM" jdbcType="INTEGER" property="praiseNum" />
+		<result column="COMMENT_NUM" jdbcType="INTEGER" property="commentNum" />
+		<result column="TOTAL_NUM" jdbcType="INTEGER" property="totalNum" />
+		<result column="SALE_NUM" jdbcType="INTEGER" property="saleNum" />
+		<result column="STANDARD_ID" jdbcType="INTEGER" property="standardId" />
+		<result column="SEASON" jdbcType="VARCHAR" property="season" />
+		<result column="VOLUME" jdbcType="VARCHAR" property="volume" />
+		<result column="BHMZ_TYPE" jdbcType="VARCHAR" property="bhmzType" />
+		<result column="WSHL_TYPE" jdbcType="VARCHAR" property="wshlType" />
+		<result column="IN_TIME" jdbcType="VARCHAR" property="inTime" />
+		<result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+		<result column="BRAND_NAME" jdbcType="VARCHAR" property="brandName" />
+		<result column="SUNSCREEN" jdbcType="VARCHAR" property="sunscreen" />
+		<result column="EFFECT" jdbcType="VARCHAR" property="effect" />
+		<result column="SUIT_SKIN" jdbcType="VARCHAR" property="suitSkin" />
+		<result column="IS_SPECIAL" jdbcType="BIT" property="isSpecial" />
+		<result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="CREATE_ID" jdbcType="INTEGER" property="createId" />
+		<result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="UPDATE_ID" jdbcType="INTEGER" property="updateId" />
+		<collection property="JskSysAnnex" javaType="java.util.List"
+			ofType="com.jsk.zx.login.model.JskSysAnnex">
+			<id column="aPK_ID" property="pkId" jdbcType="INTEGER" />
+			<result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		m.PK_ID, m.TITLE, m.SUMMARY, m.CONTENT, m.TYPE, m.PHOTO, m.PRICE, m.STATUS,
+		m.PRAISE_NUM,
+		m.COMMENT_NUM,
+		m.TOTAL_NUM, m.SALE_NUM, m.STANDARD_ID, m.SEASON,
+		m.VOLUME, m.BHMZ_TYPE, m.WSHL_TYPE, m.IN_TIME,
+		m.CREATE_DATE, m.BRAND_NAME,
+		m.SUNSCREEN, m.EFFECT, m.SUIT_SKIN, m.IS_SPECIAL,
+		m.CREATE_TIME, m.CREATE_ID,
+		m.UPDATE_TIME, m.UPDATE_ID,a.PK_ID aPK_ID,a.FILE_PATH
+	</sql>
+
+	<select id="selectMarketByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_person_market
+		where PK_ID = #{pkId,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByInKey" parameterType="java.util.ArrayList"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_person_market
+		where PK_ID in
+		<foreach collection="array" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<select id="selectPersonMarket"  resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_person_market m
+		left join jsk_sys_annex a
+		on m.PHOTO=a.PK_ID
+	</select>
+
+</mapper>

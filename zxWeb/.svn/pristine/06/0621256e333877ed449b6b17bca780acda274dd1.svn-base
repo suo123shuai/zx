@@ -1,0 +1,21 @@
+/**
+ * 
+ */
+package com.jsk.zx.demo.service;
+
+import org.springframework.stereotype.Service;
+
+import com.jsk.zx.demo.mapper.IDemoEntityMapper;
+import com.jsk.zx.demo.model.DemoEntity;
+import com.mltt.core.service.BaseService;
+
+/**
+ * @Title: DemoEntityService.java
+ * @Description: TODO 
+ * @author: lizp
+ * @date: 2018年7月11日 下午5:17:44
+ */
+@Service
+public class DemoEntityService extends BaseService<DemoEntity, IDemoEntityMapper> {
+
+}

@@ -1,0 +1,46 @@
+package com.jsk.zx.person.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import com.jsk.base.mapper.IBaseMapper;
+import com.jsk.zx.person.model.JskPersonComment;
+import com.jsk.zx.person.model.JskPersonCommentorAndDetail;
+
+public interface JskPersonCommentMapper extends IBaseMapper{
+	
+	/**
+	 * @Title: deleteByPrimaryKey
+	 * @Description: 删除评论
+	 * @author: suojinliang
+	 * @date: 2018年6月30日 
+	 * @param pkId
+	 * @return
+	 */
+    int deleteByPrimaryKey(Integer pkId);
+
+    int insert(JskPersonComment record);
+
+    /**
+     * @Title: saveCommentSelective
+     * @Description: 添加评论信息
+     * @author: suojinliang
+     * @date: 2018年6月25日 
+     * @param record
+     * @return
+     */
+    int saveCommentSelective(JskPersonComment record);
+
+    JskPersonComment selectByPrimaryKey(Integer pkId);
+
+    int updateByPrimaryKeySelective(JskPersonComment record);
+
+    int updateByPrimaryKey(JskPersonComment record);
+    
+    /**
+     * 
+     * @return
+     * @throws Exception
+     */
+    List<JskPersonCommentorAndDetail> findByRecordId(Map map);
+}

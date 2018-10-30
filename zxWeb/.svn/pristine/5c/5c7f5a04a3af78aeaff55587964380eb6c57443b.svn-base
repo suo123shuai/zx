@@ -1,0 +1,137 @@
+package com.jsk.zx.index.model;
+
+import java.util.Date;
+import java.util.List;
+
+public class JskIndexRecommend {
+	private Integer pkId;
+
+	private String title;
+
+	private String summary;
+
+	private String content;
+
+	private Integer number;
+
+	private Integer photo;
+
+	private Object isShow;
+
+	private Date createTime;
+
+	private Integer createId;
+
+	private Date updateTime;
+
+	private Integer updateId;
+
+	private JskSysUser JskSysUser;
+
+	private List<com.jsk.zx.login.model.JskSysAnnex> JskSysAnnex;
+
+	public Integer getPkId() {
+		return pkId;
+	}
+
+	public void setPkId(Integer pkId) {
+		this.pkId = pkId;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title == null ? null : title.trim();
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary == null ? null : summary.trim();
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content == null ? null : content.trim();
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+
+	public Integer getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(Integer photo) {
+		this.photo = photo;
+	}
+
+	public Object getIsShow() {
+		return isShow;
+	}
+
+	public void setIsShow(Object isShow) {
+		this.isShow = isShow;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Integer getCreateId() {
+		return createId;
+	}
+
+	public void setCreateId(Integer createId) {
+		this.createId = createId;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public Integer getUpdateId() {
+		return updateId;
+	}
+
+	public void setUpdateId(Integer updateId) {
+		this.updateId = updateId;
+	}
+
+	public JskSysUser getJskSysUser() {
+		return JskSysUser;
+	}
+
+	public void setJskSysUser(JskSysUser jskSysUser) {
+		JskSysUser = jskSysUser;
+	}
+
+	public List<com.jsk.zx.login.model.JskSysAnnex> getJskSysAnnex() {
+		return JskSysAnnex;
+	}
+
+	public void setJskSysAnnex(
+			List<com.jsk.zx.login.model.JskSysAnnex> jskSysAnnex) {
+		JskSysAnnex = jskSysAnnex;
+	}
+}

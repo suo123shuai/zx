@@ -1,0 +1,29 @@
+package com.jsk.zx.person.mapper;
+
+import java.util.List;
+
+import com.jsk.base.mapper.IBaseMapper;
+import com.jsk.zx.person.model.JskPersonMarket;
+
+public interface JskPersonMarketMapper extends IBaseMapper{
+
+	/**
+	 * @Title: selectByPrimaryKey
+	 * @Description: 根据主键查询
+	 * @author: suojinliang
+	 * @date: 2018年7月13日 
+	 * @param pkId
+	 * @return
+	 */
+    JskPersonMarket selectMarketByPrimaryKey(Integer pkId);
+    
+    /**
+     * @Title: selectByInKey
+     * @Description:多个id查询产品
+     * @author: suojinliang
+     * @date: 2018年7月10日 
+     * @param ids
+     * @return
+     */
+    List<JskPersonMarket> selectByInKey(String[] ids);
+}

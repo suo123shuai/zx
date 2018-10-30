@@ -1,0 +1,22 @@
+/**
+ * 
+ */
+package com.jsk.zx.demo.service.impl;
+
+import org.springframework.stereotype.Service;
+
+import com.jsk.zx.demo.mapper.IDemoEntityMapper;
+import com.jsk.zx.demo.model.DemoEntity;
+import com.jsk.zx.demo.service.IDemoEntityService;
+import com.mltt.core.service.BaseEntityService;
+
+/**
+ * @Title: DemoEntityServiceImpl.java
+ * @Description: 例子
+ * @author: lizp
+ * @date: 2018年7月24日 上午1:50:54
+ */
+@Service
+public class DemoEntityServiceImpl extends BaseEntityService<DemoEntity, IDemoEntityMapper> implements IDemoEntityService {
+
+}

@@ -1,0 +1,15 @@
+package com.jsk.zx.person.mapper;
+
+import java.util.List;
+
+import com.jsk.base.mapper.IBaseMapper;
+import com.jsk.zx.person.model.JskPersonTransferDetail;
+
+public interface JskPersonTrancsferDetailMapper extends IBaseMapper{
+	
+	List<JskPersonTransferDetail> selectPersonTrancsferDetail(int userId);
+	
+	List<JskPersonTransferDetail> selectPersonTrancsferDetailByType();
+    
+	
+}

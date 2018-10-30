@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsk.zx.index.mapper.OpsitionMapper" >
+  <resultMap id="BaseResultMap" type="com.jsk.zx.index.model.JskSysUser" >
+    <id column="PK_ID" property="pkId" jdbcType="INTEGER" />
+    <id column="CREATE_ID" property="createId" jdbcType="INTEGER" />
+    <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
+    <result column="LOGIN_PWD" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="IDENTIFY" property="identify" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="WORK_TYPE" property="workType" jdbcType="VARCHAR" />
+    <result column="WORK_TYPE_SMALL" property="workTypeSmall" jdbcType="VARCHAR" />
+    <result column="IDENTIFY_FACAD" property="identifyFacad" jdbcType="INTEGER" />
+    <result column="IDENTIFY_BACK" property="identifyBack" jdbcType="INTEGER" />
+    <result column="CARD_PHOTO" property="cardPhoto" jdbcType="INTEGER" />
+    <result column="HEAD_PHOTO" property="headPhoto" jdbcType="INTEGER" />
+    <result column="SKILL" property="skill" jdbcType="VARCHAR" />
+    <result column="SPACE" property="space" jdbcType="VARCHAR" />
+    <result column="APPRAISE" property="appraise" jdbcType="VARCHAR" />
+    <result column="PERMIT_PHOTO" property="permitPhoto" jdbcType="INTEGER" />
+    <result column="COMPANY_SPACE" property="companySpace" jdbcType="VARCHAR" />
+    <result column="COMPANY_TYPE" property="companyType" jdbcType="VARCHAR" />
+    <result column="PRODUCT" property="product" jdbcType="VARCHAR" />
+    <result column="BANKCARD_id" property="bankcardId" jdbcType="INTEGER" />
+    <result column="PRAISE_NUM" property="praiseNum" jdbcType="INTEGER" />
+    <result column="COMMENT_NUM" property="commentNum" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_ID" property="updateId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, CREATE_ID, LOGIN_NAME, LOGIN_PWD, USER_NAME, NICK_NAME, MOBILE, TELEPHONE, 
+    SEX, EMAIL, STATUS, REASON, TYPE, IDENTIFY, CITY, ADDRESS, WORK_TYPE, WORK_TYPE_SMALL, 
+    IDENTIFY_FACAD, IDENTIFY_BACK, CARD_PHOTO, HEAD_PHOTO, SKILL, SPACE, APPRAISE, PERMIT_PHOTO, 
+    COMPANY_SPACE, COMPANY_TYPE, PRODUCT, BANKCARD_id, PRAISE_NUM, COMMENT_NUM, CREATE_TIME, 
+    UPDATE_TIME, UPDATE_ID
+  </sql>
+  
+  <update id="updateByUserName" parameterType="com.jsk.zx.index.model.JskSysUser" >
+    update jsk_sys_user
+    <set >
+        CITY = #{city,jdbcType=VARCHAR}
+    </set>
+    	where PK_ID = #{pkId,jdbcType=INTEGER}
+  </update>
+</mapper>

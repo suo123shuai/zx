@@ -1,0 +1,226 @@
+package com.jsk.zx.pay.controller;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.jdom2.JDOMException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.jsk.zx.login.service.IUserService;
+import com.jsk.zx.pay.common.DateUtil;
+import com.jsk.zx.pay.common.PayCommonUtil;
+import com.jsk.zx.pay.common.StringUtil;
+import com.jsk.zx.pay.common.WxConfig;
+import com.jsk.zx.pay.service.IPaySucceedNewsSaveService;
+import com.jsk.zx.pay.service.IPayUpdateOrderAndUser;
+import com.jsk.zx.person.model.JskPersonOrder;
+import com.jsk.zx.person.model.ResuUtil;
+import com.jsk.zx.person.service.IPersonTransferDetailService;
+
+@Controller
+@RequestMapping("/wxpay")
+public class WXPayController {
+	
+	@Autowired
+	private IPayUpdateOrderAndUser orderAndUser;
+	@Autowired
+	private IPersonTransferDetailService transferDetailService;
+	@Autowired
+	private IUserService userService;
+	@Autowired
+	private IPaySucceedNewsSaveService newsSaveService;
+
+	
+    String randomString = PayCommonUtil.getRandomString(32);
+    
+	
+	public WXPayController() {
+		System.out.println("MainController构造函数");
+	}
+	
+	/**
+     * @param totalAmount    支付金额
+     * @param description    描述
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/wxpay")
+    @ResponseBody    
+    public String wxpay(HttpServletRequest request, String orderId) {
+    	
+    	JskPersonOrder order = orderAndUser.findPersonOrderByOrderId(orderId);
+    	Float price = order.getPrice();
+    	ResuUtil resu = new ResuUtil();
+        
+        BigDecimal totalAmount = new BigDecimal(price);
+        String trade_no = order.getPkId();
+        String description="";
+        String openId = "";
+        
+        Map<String, String> map = weixinPrePay(trade_no,totalAmount,description,openId,request);  
+        SortedMap<String, Object> finalpackage = new TreeMap<String, Object>();
+        //应用ID
+        finalpackage.put("appid", "wx7b35475567490806");
+        //商户号
+        finalpackage.put("partnerid", "1509705571");
+        Long time = (System.currentTimeMillis() / 1000);
+        //时间戳
+        finalpackage.put("timestamp", time.toString());
+        //随机字符串
+        finalpackage.put("noncestr", map.get("nonce_str"));
+        //预支付交易会话ID
+        finalpackage.put("prepayid", map.get("prepay_id"));
+        //扩展字段
+        finalpackage.put("packagea", "Sign=WXPay");
+        String sign = PayCommonUtil.createSign("UTF-8", finalpackage);
+        finalpackage.put("sign", sign);
+        /*WeiXinPrePay prePay = new WeiXinPrePay();
+        prePay.setAppId(WxConfig.APP_ID);
+        prePay.setMchId(WxConfig.MCH_ID);
+        prePay.setTimeStamp(time.toString());
+        prePay.setNonceStr(map.get("nonce_str"));
+        prePay.setPrepayId(map.get("prepay_id"));
+        prePay.setSignType("MD5");
+        prePay.setPaySign(map.get("sign"));
+        result.setData(prePay);
+        result.setStateCode(GeneralConstant.SUCCESS);
+        result.setDesc("微信支付加载成功");*/
+        resu.setData(finalpackage);
+        resu.setStatus(0);
+        resu.setMsg("ok");
+        return JSON.toJSONString(resu);
+    } 
+ 
+	
+	/**
+     * 统一下单 
+     * 应用场景：商户系统先调用该接口在微信支付服务后台生成预支付交易单，返回正确的预支付交易回话标识后再在APP里面调起支付。
+     * @param trade_no
+     * @param totalAmount
+     * @param description
+     * @param openid
+     * @param sym
+     * @param request
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, String> weixinPrePay(String trade_no,BigDecimal totalAmount,  
+            String description, String openid, HttpServletRequest request) { 
+        SortedMap<String, Object> parameterMap = new TreeMap<String, Object>();  
+        parameterMap.put("appid", "wx7b35475567490806");  //应用appid 
+        parameterMap.put("mch_id", "1509705571");  //商户号
+        //parameterMap.put("device_info", "WEB");
+        parameterMap.put("nonce_str", randomString);
+        parameterMap.put("body", "大时圈-消费");
+        parameterMap.put("out_trade_no", trade_no);
+        parameterMap.put("fee_type", "CNY");  
+        System.out.println("jiner");  
+        BigDecimal total = totalAmount.multiply(new BigDecimal(100));  //接口中参数支付金额单位为【分】，参数值不能带小数，所以乘以100
+        java.text.DecimalFormat df=new java.text.DecimalFormat("0");  
+        parameterMap.put("total_fee", df.format(total));  
+        System.out.println("jiner2");  
+        parameterMap.put("spbill_create_ip", PayCommonUtil.getRemoteHost(request));  
+        parameterMap.put("notify_url", WxConfig.WXNOTIFY);
+        parameterMap.put("trade_type", "APP");//"JSAPI"
+        //trade_type为JSAPI是 openid为必填项
+        //parameterMap.put("openid", openid);
+        System.out.println("");  
+        String sign = PayCommonUtil.createSign("UTF-8", parameterMap); 
+        System.out.println("jiner2");  
+        parameterMap.put("sign", sign);  
+        String requestXML = PayCommonUtil.getRequestXml(parameterMap);  
+        System.out.println(requestXML);  
+        String result = PayCommonUtil.httpsRequest(  
+                "https://api.mch.weixin.qq.com/pay/unifiedorder", "POST",  
+                requestXML);  
+        System.out.println(result);  
+        Map<String, String> map = null;  
+        try {  
+            map = PayCommonUtil.doXMLParse(result);  
+        } catch (JDOMException e) {  
+            e.printStackTrace();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+        return map;        
+    }
+    
+    
+ 
+    /**
+     * 此函数会被执行多次，如果支付状态已经修改为已支付，则下次再调的时候判断是否已经支付，如果已经支付了，则什么也执行
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     * @throws JDOMException
+     */
+    @RequestMapping(value = "notifyWeiXinPay")
+   // @RequestDescription("支付回调地址")
+    @ResponseBody
+    public String notifyWeiXinPay(HttpServletRequest request, HttpServletResponse response) throws IOException, JDOMException {
+        System.out.println("微信支付回调");
+        InputStream inStream = request.getInputStream();
+        ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while ((len = inStream.read(buffer)) != -1) {
+            outSteam.write(buffer, 0, len);
+        }
+        String resultxml = new String(outSteam.toByteArray(), "utf-8");
+        Map<String, String> params = PayCommonUtil.doXMLParse(resultxml);
+        outSteam.close();
+        inStream.close();
+        
+        
+        Map<String,String> return_data = new HashMap<String,String>();  
+        if (!PayCommonUtil.isTenpaySign(params)) {
+            // 支付失败
+        	return_data.put("return_code", "FAIL");  
+            return_data.put("return_msg", "return_code不正确");
+        	return StringUtil.GetMapToXML(return_data);
+        } else {
+            System.out.println("===============付款成功==============");
+            // ------------------------------
+            // 处理业务开始
+            // ------------------------------
+            // 此处处理订单状态，结合自己的订单数据完成订单状态的更新
+            // ------------------------------
+ 
+            String total_fee = params.get("total_fee");
+            double v = Double.valueOf(total_fee) / 100;
+            String out_trade_no = String.valueOf(Long.parseLong(params.get("out_trade_no").split("O")[0]));
+			Date accountTime = DateUtil.stringtoDate(params.get("time_end"), "yyyyMMddHHmmss");
+			String ordertime = DateUtil.dateToString(new Date(), "yyyy-MM-dd HH:mm:ss");
+			String totalAmount = String.valueOf(v);
+			String appId = params.get("appid");
+			String tradeNo = params.get("transaction_id");
+			JskPersonOrder order = orderAndUser
+					.findPersonOrderByOrderId(out_trade_no);
+			orderAndUser.updateOrderById(out_trade_no, "1");
+			orderAndUser.updateUserMarket(order.getUserId(),
+					Integer.parseInt(totalAmount),Integer.parseInt(totalAmount));
+			String pkId = order.getPkId();
+			Integer userId = order.getUserId();
+			String type = order.getType();
+			newsSaveService.savePaySuccedNews(pkId, type, userId);
+			return_data.put("return_code", "SUCCESS");
+            return_data.put("return_msg", "OK");
+			return StringUtil.GetMapToXML(return_data);
+        }
+    }
+}

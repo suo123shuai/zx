@@ -1,0 +1,29 @@
+package com.jsk.zx.pay.model;
+
+public class AlipayConfig {
+	// 1.商户appid
+	public static String APPID = "2018070460555309";
+
+	// 2.私钥 pkcs8格式的
+	public static String RSA_PRIVATE_KEY = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCGw0HokgE63sdjYnNWYjOk0mhXj9u4hgMTj3tDvhhaOQmqEBl6Dwe1TCMdtvt4I852v35m6TUlmZOOTVpP3iG2yBPaGAChTeHoGT49+HqBS4FgX6wV7N1GPSvLT0msh9idgu/DBP92soWTmGYf1OqxBfsW4I1OdKpnlXoPRPKoUKFNqIkDBSY3u+KR2oQUbs6EC4AXHynA0U+nx7tKXWSylWRHBkj4SrJifPV2fQQJU2Wm67gb4PysavzksU0S4C5hutGjN3abjW0V4MZ99l31Q+USyK4OrFnXbwjZQ/otcB3Rcy4ABnRkW7WF5kgdXxk5kmwtQP8PvKssOqJI6f3rAgMBAAECggEATLH/Zo8BqDF1pHg5T+ZfoeQlgf/bem66fX1hF7KuRVrEx0aWWUMIjgOg0J59C2jFbguZspPyrU10Dr6zMVUoNtAzjCGw6hxa/y6un7I0djU0klagp3HAlOLnc7PSKCDABRSpw4GqqjD7mH5ZULBqSQkwV1rA0O/Qs1b8uofw2h0Av/FBzJywfXgqvTJQMwGaU95QjSP4qXqt1uH46GFvkRyAl83nmViBFaTYZn9VabIvUJji1nKupdquWLQ1zMfwvrCWAcVC0a/XfUJF+wEJYZvkMwNGh0wNV+sqBQaMpRCPlPOMvVUQ7B6wG7c+uDLviyC+HL8CWfeRVFG5bHi8sQKBgQDnfZG79D/ZDFxNdxH5NoaeRkh9bwxJte7vVJnH8Kw1/WJyxf5hKOdgs42dtvjlIQxbPEN3C++DejcgsqaYTiVNeqy+h/l0xLVfFwBTqdIkKdRQp8+va0L1CSubGgxkKftqTbkodQpE7w0fgdnweiGGArwqs8Gw8Hh9qJlhTPbQnwKBgQCVB+58Wx5UOWJoqPodpL96WEBBU0bZFiitp1e85E7Mpm2PldMEtg94TBJRzwedbLGOs3cgy0Tb7sdfQQc3R9dMGDQGmTHsUnQcrR5kKL/c7NphGV4ZZxAGWTicreAsRmG9Sq6aSR95+bkUpa14WoQJ9+xAh+q9tFhZFdh6/osTNQKBgQCsw5NTMevAwi/VBIteceowD4YkTw9dp7FF3t7SUHVF6fBidg/uVUexbO/BCABjiLGfGa/EFh1QA5NHDO22d4Pxeh+YJwTut6wg5pqw1enmYW16MHOYmLWlCI4JuHwM+SQQ5ybL4eWjIsGphRCxH4ULbdkfCX8B3cYfCghGjNkbQwKBgDLmsp3mwUUjFGmKzWKyknPHEKs/NkOPPfWR4nWxxPhBH8qa8af6Ru5fjSJEA+XQ6hRDV7zrsGkt9Qqju0M2VmK3IY3fZR3CS8Y/mtG62U0r2Kqxb2JdwStp7dwVxytYHqn4iApKT2Xp1T0oGUeyIscE1rxzr8l7f3Ft9LKNnhLBAoGAPNmISVs36vWbBSdhaep3L621IxJcQZzr6Dg5dFN8p4TIOHBPqavTUaB58vM1X6nIKpZGB8ZRKlYohymXppBiCQXQCz1xLRLtvDbMWy5ef84ExpMc97FXl31+TdExqGSaTtecYH/wX5V9y5ozFsYFr4X635lGpBi/GqH22klkSAQ=";
+	//3.应用公钥
+	public static String ALIPAY_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApgAxHkQeltSpMnQdUNC2/W/SG/bcBgPItr4nLvIbppaCAowtHQvc6FLutPfOQu2bZzWAoZvVEZxbKjY7K54edxRMG/74GVxMxeUKOR2vgCcPU6sdIsqZ5J0sZHemWVf9X5xsJ4ogXH6SC7SlGMv/hgGAGNUmGG4Xf1R9VdByt904aAl2U+Qsx74W5/VQRoMrj6nlYcLdluqjTdlp5hmoUpVrG7qDO2mMDAnOdKEXaBjqMZPvTBJ0o2XZARunpaBZO7dSUdeqkVAmwAce+FYIHE5QFxgdvlL9inHTod2olZyDoBEW/aeLu265MYf+bNy6sv6LSjJZIIPzLCIXsHSKYQIDAQAB";
+	// 4.服务器异步通知页面路径 需http://或者https://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
+	//public static String notify_url = "http://www.dashiquan.cn:8081/pay/aliscallbacks";
+
+	// 5.页面跳转同步通知页面路径 需http://或者https://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
+	// 商户可以自定义同步跳转地址
+	public static String return_url = "http://www.dashiquan.cn:8081/pay/aliscallbacks";
+
+	// 6.请求网关地址
+	public static String URL = "https://openapi.alipay.com/gateway.do";
+
+	// 7.编码
+	public static String CHARSET = "UTF-8";
+
+	// 8.返回格式
+	public static String FORMAT = "json";
+
+	// 9.加密类型
+	public static String SIGNTYPE = "RSA2";
+}

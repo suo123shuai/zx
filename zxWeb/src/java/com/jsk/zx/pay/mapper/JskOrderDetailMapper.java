@@ -1,0 +1,31 @@
+package com.jsk.zx.pay.mapper;
+
+import java.util.Map;
+
+import com.jsk.zx.pay.model.JskPersonOrderDetail;
+import com.jsk.zx.pay.model.MaiJiaId;
+
+public interface JskOrderDetailMapper {
+
+    /**
+     * 查询物品id
+     * @Title: selectByPrimaryKey
+     * @Description: 
+     * @author: suojinliang
+     * @date: 2018年7月29日 
+     * @param pkId
+     * @return
+     */
+    JskPersonOrderDetail selectByKey(String orderId);
+    
+    /**
+     * 查询卖家id
+     * @Title: selectMaiJiaId
+     * @Description: 
+     * @author: suojinliang
+     * @date: 2018年7月29日 
+     * @param map
+     * @return
+     */
+    MaiJiaId selectMaiJiaId(Map<String, Object> map);
+}

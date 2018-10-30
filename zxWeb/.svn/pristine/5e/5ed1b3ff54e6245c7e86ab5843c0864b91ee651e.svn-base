@@ -1,0 +1,10 @@
+package com.jsk.zx.login.common;
+
+public class Constant {
+
+	/**短信签名*/
+	public static final String SIGN_NAME = "大时圈短信验证码";
+	
+	/**短信模板*/
+	public static final String TEMPLATE_CODE = "SMS_137505107";		
+}

@@ -1,0 +1,5 @@
+package com.jsk.zx.index.service;
+
+public interface IJskIndexTopNewsService {
+
+}

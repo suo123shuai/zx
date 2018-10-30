@@ -1,0 +1,44 @@
+package com.jsk.zx.login.mapper;
+
+import com.jsk.base.mapper.IBaseMapper;
+import com.jsk.zx.login.model.JskSysUser;
+import com.jsk.zx.login.model.JskSysUserKey;
+
+public interface JskSysUserMapper extends IBaseMapper{
+    int deleteByPrimaryKey(JskSysUserKey key);
+
+    int insert(JskSysUser record);
+    
+    /**
+     * 
+     * @Description:向数据库插入用户信息
+     * @param record
+     * @return
+     * 2018年6月14日
+     */
+    int saveSelective(JskSysUser record);
+
+    JskSysUser selectByPrimaryKey(JskSysUserKey key);
+
+    int updateByPrimaryKeySelective(JskSysUser record);
+
+    int updateByPrimaryKey(JskSysUser record);
+    
+    /**
+     * @Description:根据登陆名查用户
+     * @param name
+     * @return
+     * 2018年6月14日
+     */
+    JskSysUser findByPrimaryName(String name);
+    
+    /**
+     * @Title: findByPrimaryMobile
+     * @Description: 根据电话查用户
+     * @author: suojinliang
+     * @date: 2018年7月3日 
+     * @param Mobile
+     * @return
+     */
+    JskSysUser findByPrimaryMobile(String mobile);
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsk.zx.demo.mapper.IDemoEntityMapper">
+	<resultMap id="BaseResultMap" type="com.jsk.zx.demo.model.DemoEntity">
+		<id column="PK_ID" jdbcType="INTEGER" property="pkId" />
+		<result column="DEMO_NAME" jdbcType="VARCHAR" property="demoName" />
+		<result column="DEMO_ADDRESS" jdbcType="VARCHAR" property="demoAddress" />
+		<result column="CREATE_ID" jdbcType="INTEGER" property="createId" />
+		<result column="CREATE_TIME" jdbcType="DATE" property="createTime" />
+		<result column="UPDATE_ID" jdbcType="INTEGER" property="updateId" />
+		<result column="UPATE_TIME" jdbcType="DATE" property="updateTime" />
+	</resultMap>
+	<sql id="column_list">
+		PK_ID,DEMO_NAME,DEMO_ADDRESS,CREATE_ID,CREATE_TIME,UPDATE_ID,UPDATE_TIME
+	</sql>
+	
+	<insert id="insert">
+	insert into jsk_demo(demo_name,demo_address) values(#{demoName,jdbcType=VARCHAR},#{demoAddress,jdbcType=VARCHAR})
+	</insert>
+
+	<select id="getTotalRows" resultType="java.lang.Long">
+		select count(PK_ID) from jsk_demo jd
+		<include refid="where" />
+	</select>
+	
+	<select id="edit" resultMap="BaseResultMap">
+		select
+		<include refid="column_list" />
+		from jsk_demo jd
+		<include refid="where" /> 
+	</select>
+
+	<select id="findList" resultMap="BaseResultMap">
+		select
+		<include refid="column_list" />
+		from jsk_demo jd
+		<include refid="where" /> 
+	</select>
+	<delete id="deleteById">
+		delete from jsk_demo where pk_id=#{pkId}
+	</delete>
+	<sql id="where">
+		where 1=1
+		<if test="pkId != null">
+		and pk_id = #{pkId}
+		</if>
+	</sql>
+	
+</mapper>

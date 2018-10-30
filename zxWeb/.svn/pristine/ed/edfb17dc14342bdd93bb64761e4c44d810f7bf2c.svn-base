@@ -1,0 +1,26 @@
+/**
+ * 
+ */
+package com.jsk.zx.system.mapper;
+
+import com.jsk.zx.system.model.JskSysUser;
+import com.mltt.core.mapper.IBaseMapper;
+
+/**
+ * @Title: IJskSysUser.java
+ * @Description: 用户管理
+ * @author: lizp
+ * @date: 2018年7月23日 下午11:34:54
+ */
+public interface IJskSysUserMapper extends IBaseMapper<JskSysUser> {
+
+	/**
+	 * @Title: findByLoginName
+	 * @Description: 根据登录名查询用户对象
+	 * @author: lizp
+	 * @date: 2018年7月23日
+	 * @param loginName
+	 * @return
+	 */
+	public JskSysUser findByLoginName(String loginName);
+}

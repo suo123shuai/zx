@@ -1,0 +1,8 @@
+package com.jsk.zx.demo.mapper;
+
+import com.jsk.zx.demo.model.DemoEntity;
+import com.mltt.core.mapper.IBaseMapper;
+
+public interface IDemoEntityMapper extends IBaseMapper<DemoEntity>{
+
+}

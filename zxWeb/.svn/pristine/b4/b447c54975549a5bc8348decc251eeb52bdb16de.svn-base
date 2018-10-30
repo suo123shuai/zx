@@ -1,0 +1,8 @@
+package com.jsk.zx.index.mapper;
+
+import com.jsk.zx.index.model.JskIndexTopNews;
+import com.mltt.core.mapper.IBaseMapper;
+
+public interface IJskIndexTopNewsMapper extends IBaseMapper<JskIndexTopNews>{
+
+}

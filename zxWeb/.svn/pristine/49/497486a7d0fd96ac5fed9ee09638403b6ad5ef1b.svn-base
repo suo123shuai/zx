@@ -1,0 +1,19 @@
+/**
+ * 
+ */
+
+package com.jsk.zx.index.mapper;
+
+import java.util.List;
+
+import com.jsk.base.mapper.IBaseMapper;
+import com.jsk.zx.index.model.JskIndexFindServe;
+
+public interface FindServeMapper extends IBaseMapper {
+
+	public List<JskIndexFindServe> selectService();
+
+	public List<JskIndexFindServe> findMyService(int userId);
+	
+	public List<JskIndexFindServe> findServiceDetail(int pkId);
+}

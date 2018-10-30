@@ -1,0 +1,25 @@
+package com.jsk.zx.person.mapper;
+
+import com.jsk.zx.person.model.JskPersonOrderDetail;
+
+public interface JskPersonOrderDetailMapper {
+
+    int deleteByPrimaryKey(Integer pkId);
+
+    /**
+     * 插入订单详细
+     * @Title: saveOrderDetailSelective
+     * @Description: 
+     * @author: suojinliang
+     * @date: 2018年7月18日 
+     * @param record
+     * @return
+     */
+    int saveOrderDetailSelective(JskPersonOrderDetail record);
+
+    JskPersonOrderDetail selectByPrimaryKey(Integer pkId);
+
+    int updateByPrimaryKeySelective(JskPersonOrderDetail record);
+
+    int updateByPrimaryKey(JskPersonOrderDetail record);
+}

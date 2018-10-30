@@ -1,0 +1,77 @@
+/**
+ * 
+ */
+
+package com.jsk.zx.person.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.jsk.base.mapper.IBaseMapper;
+import com.jsk.zx.person.model.JskPersonOrder;
+
+public interface JskPersonOrderMapper extends IBaseMapper {
+	
+	/**
+	 * @Title: findOrderByRecordId
+	 * @Description: 查询商户订单
+	 * @author: liuyan
+	 * @date: 2018年7月16日 
+	 */
+
+	public List<JskPersonOrder> findOrderByRecordId(@Param(value="recordId") int recordId,@Param(value="type") String type);
+	
+	public List<?>  selectProductRecordId(int userId);
+	
+	public List<?>  selectServiceRecordId(int userId);
+	
+	//public List<?>  selectMarketRecordId(int userId);
+	
+	public List<JskPersonOrder> findServiceOrderById(int userId);
+
+	/**
+	 * @Title: saveOrder
+	 * @Description: 插入订单
+	 * @author: suojinliang
+	 * @date: 2018年7月11日 
+	 * @param order
+	 * @return
+	 */
+	public int saveOrder(JskPersonOrder order);
+	
+	/**
+	 * @Title: findPersonOrderById
+	 * @Description: 查询个人订单
+	 * @author: liuyan
+	 * @date: 2018年7月16日 
+	 * @param userId
+	 * @return
+	 */
+
+	public List<JskPersonOrder> findPersonOrderById(int userId);
+	
+	/**
+	 * 查找订单
+	 * @Title: findPersonOrderByOrderId
+	 * @Description: 
+	 * @author: suojinliang
+	 * @date: 2018年7月19日 
+	 * @param orderId
+	 * @return
+	 */
+	public JskPersonOrder findPersonOrderByOrderId(String orderId);
+	
+	/**
+	 * 更新订单状态
+	 * @Title: updateOrder
+	 * @Description: 
+	 * @author: suojinliang
+	 * @date: 2018年7月18日 
+	 * @param map
+	 * @return
+	 */
+	public int updateOrder(Map<String, Object> map);
+
+}

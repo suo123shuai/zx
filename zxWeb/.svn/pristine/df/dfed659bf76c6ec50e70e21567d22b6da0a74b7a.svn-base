@@ -1,0 +1,23 @@
+/**
+ * 
+ */
+package com.jsk.zx.system.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.jsk.zx.system.model.JskSysUser;
+import com.jsk.zx.system.service.IJskSysUserService;
+import com.mltt.core.controller.BaseEntityController;
+
+/**
+ * @Title: JskSysUserController.java
+ * @Description: 用户管理 
+ * @author: lizp
+ * @date: 2018年7月31日 上午2:04:56
+ */
+@Controller
+@RequestMapping("/secure/user")
+public class JskSysUserController extends BaseEntityController<JskSysUser, IJskSysUserService> {
+
+}

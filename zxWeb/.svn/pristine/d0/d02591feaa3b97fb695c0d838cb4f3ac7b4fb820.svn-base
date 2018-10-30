@@ -1,0 +1,787 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jsk.zx.index.mapper.JskInsertMapper">
+	<insert id="insertService" parameterType="com.jsk.zx.index.model.JskIndexService">
+		<selectKey keyProperty="pkId" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into jsk_index_service
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				PK_ID,
+			</if>
+			<if test="title != null">
+				TITLE,
+			</if>
+			<if test="summary != null">
+				SUMMARY,
+			</if>
+			<if test="content != null">
+				CONTENT,
+			</if>
+			<if test="address != null">
+				ADDRESS,
+			</if>
+			<if test="area != null">
+				AREA,
+			</if>
+			<if test="startDate != null">
+				START_DATE,
+			</if>
+			<if test="endDate != null">
+				END_DATE,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="remark != null">
+				REMARK,
+			</if>
+			<if test="photo != null">
+				PHOTO,
+			</if>
+			<if test="price != null">
+				PRICE,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="praiseNum != null">
+				PRAISE_NUM,
+			</if>
+			<if test="commentNum != null">
+				COMMENT_NUM,
+			</if>
+			<if test="workId != null">
+				WORK_ID,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="createId != null">
+				CREATE_ID,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="updateId != null">
+				UPDATE_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				#{pkId,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null">
+				#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="area != null">
+				#{area,jdbcType=REAL},
+			</if>
+			<if test="startDate != null">
+				#{startDate,jdbcType=DATE},
+			</if>
+			<if test="endDate != null">
+				#{endDate,jdbcType=DATE},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="photo != null">
+				#{photo,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=REAL},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="praiseNum != null">
+				#{praiseNum,jdbcType=INTEGER},
+			</if>
+			<if test="commentNum != null">
+				#{commentNum,jdbcType=INTEGER},
+			</if>
+			<if test="workId != null">
+				#{workId,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createId != null">
+				#{createId,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateId != null">
+				#{updateId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="insertProduct" parameterType="com.jsk.zx.index.model.JskIndexProduct">
+		<selectKey keyProperty="pkId" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into jsk_index_product
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				PK_ID,
+			</if>
+			<if test="title != null">
+				TITLE,
+			</if>
+			<if test="summary != null">
+				SUMMARY,
+			</if>
+			<if test="content != null">
+				CONTENT,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="photo != null">
+				PHOTO,
+			</if>
+			<if test="price != null">
+				PRICE,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="praiseNum != null">
+				PRAISE_NUM,
+			</if>
+			<if test="commentNum != null">
+				COMMENT_NUM,
+			</if>
+			<if test="totalNum != null">
+				TOTAL_NUM,
+			</if>
+			<if test="saleNum != null">
+				SALE_NUM,
+			</if>
+			<if test="standardId != null">
+				STANDARD_ID,
+			</if>
+			<if test="season != null">
+				SEASON,
+			</if>
+			<if test="volume != null">
+				VOLUME,
+			</if>
+			<if test="bhmzType != null">
+				BHMZ_TYPE,
+			</if>
+			<if test="wshlType != null">
+				WSHL_TYPE,
+			</if>
+			<if test="inTime != null">
+				IN_TIME,
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE,
+			</if>
+			<if test="brandName != null">
+				BRAND_NAME,
+			</if>
+			<if test="sunscreen != null">
+				SUNSCREEN,
+			</if>
+			<if test="effect != null">
+				EFFECT,
+			</if>
+			<if test="suitSkin != null">
+				SUIT_SKIN,
+			</if>
+			<if test="isSpecial != null">
+				IS_SPECIAL,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="createId != null">
+				CREATE_ID,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="updateId != null">
+				UPDATE_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				#{pkId,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null">
+				#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="photo != null">
+				#{photo,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=REAL},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="praiseNum != null">
+				#{praiseNum,jdbcType=INTEGER},
+			</if>
+			<if test="commentNum != null">
+				#{commentNum,jdbcType=INTEGER},
+			</if>
+			<if test="totalNum != null">
+				#{totalNum,jdbcType=INTEGER},
+			</if>
+			<if test="saleNum != null">
+				#{saleNum,jdbcType=INTEGER},
+			</if>
+			<if test="standardId != null">
+				#{standardId,jdbcType=INTEGER},
+			</if>
+			<if test="season != null">
+				#{season,jdbcType=VARCHAR},
+			</if>
+			<if test="volume != null">
+				#{volume,jdbcType=VARCHAR},
+			</if>
+			<if test="bhmzType != null">
+				#{bhmzType,jdbcType=VARCHAR},
+			</if>
+			<if test="wshlType != null">
+				#{wshlType,jdbcType=VARCHAR},
+			</if>
+			<if test="inTime != null">
+				#{inTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=DATE},
+			</if>
+			<if test="brandName != null">
+				#{brandName,jdbcType=VARCHAR},
+			</if>
+			<if test="sunscreen != null">
+				#{sunscreen,jdbcType=VARCHAR},
+			</if>
+			<if test="effect != null">
+				#{effect,jdbcType=VARCHAR},
+			</if>
+			<if test="suitSkin != null">
+				#{suitSkin,jdbcType=VARCHAR},
+			</if>
+			<if test="isSpecial != null">
+				#{isSpecial,jdbcType=OTHER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createId != null">
+				#{createId,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateId != null">
+				#{updateId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="insertMarket" parameterType="com.jsk.zx.person.model.JskPersonMarket">
+		<selectKey keyProperty="pkId" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into jsk_person_market
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				PK_ID,
+			</if>
+			<if test="title != null">
+				TITLE,
+			</if>
+			<if test="summary != null">
+				SUMMARY,
+			</if>
+			<if test="content != null">
+				CONTENT,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+			<if test="photo != null">
+				PHOTO,
+			</if>
+			<if test="price != null">
+				PRICE,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="praiseNum != null">
+				PRAISE_NUM,
+			</if>
+			<if test="commentNum != null">
+				COMMENT_NUM,
+			</if>
+			<if test="totalNum != null">
+				TOTAL_NUM,
+			</if>
+			<if test="saleNum != null">
+				SALE_NUM,
+			</if>
+			<if test="standardId != null">
+				STANDARD_ID,
+			</if>
+			<if test="season != null">
+				SEASON,
+			</if>
+			<if test="volume != null">
+				VOLUME,
+			</if>
+			<if test="bhmzType != null">
+				BHMZ_TYPE,
+			</if>
+			<if test="wshlType != null">
+				WSHL_TYPE,
+			</if>
+			<if test="inTime != null">
+				IN_TIME,
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE,
+			</if>
+			<if test="brandName != null">
+				BRAND_NAME,
+			</if>
+			<if test="sunscreen != null">
+				SUNSCREEN,
+			</if>
+			<if test="effect != null">
+				EFFECT,
+			</if>
+			<if test="suitSkin != null">
+				SUIT_SKIN,
+			</if>
+			<if test="isSpecial != null">
+				IS_SPECIAL,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="createId != null">
+				CREATE_ID,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="updateId != null">
+				UPDATE_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				#{pkId,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null">
+				#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=VARCHAR},
+			</if>
+			<if test="photo != null">
+				#{photo,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=REAL},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="praiseNum != null">
+				#{praiseNum,jdbcType=INTEGER},
+			</if>
+			<if test="commentNum != null">
+				#{commentNum,jdbcType=INTEGER},
+			</if>
+			<if test="totalNum != null">
+				#{totalNum,jdbcType=INTEGER},
+			</if>
+			<if test="saleNum != null">
+				#{saleNum,jdbcType=INTEGER},
+			</if>
+			<if test="standardId != null">
+				#{standardId,jdbcType=INTEGER},
+			</if>
+			<if test="season != null">
+				#{season,jdbcType=VARCHAR},
+			</if>
+			<if test="volume != null">
+				#{volume,jdbcType=VARCHAR},
+			</if>
+			<if test="bhmzType != null">
+				#{bhmzType,jdbcType=VARCHAR},
+			</if>
+			<if test="wshlType != null">
+				#{wshlType,jdbcType=VARCHAR},
+			</if>
+			<if test="inTime != null">
+				#{inTime,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=DATE},
+			</if>
+			<if test="brandName != null">
+				#{brandName,jdbcType=VARCHAR},
+			</if>
+			<if test="sunscreen != null">
+				#{sunscreen,jdbcType=VARCHAR},
+			</if>
+			<if test="effect != null">
+				#{effect,jdbcType=VARCHAR},
+			</if>
+			<if test="suitSkin != null">
+				#{suitSkin,jdbcType=VARCHAR},
+			</if>
+			<if test="isSpecial != null">
+				#{isSpecial,jdbcType=OTHER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createId != null">
+				#{createId,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateId != null">
+				#{updateId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="insertRecommendProduct" parameterType="com.jsk.zx.index.model.JskIndexRecommend">
+		<selectKey keyProperty="pkId" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into jsk_index_recommend
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				PK_ID,
+			</if>
+			<if test="title != null">
+				TITLE,
+			</if>
+			<if test="summary != null">
+				SUMMARY,
+			</if>
+			<if test="content != null">
+				CONTENT,
+			</if>
+			<if test="number != null">
+				NUMBER,
+			</if>
+			<if test="photo != null">
+				PHOTO,
+			</if>
+			<if test="isShow != null">
+				IS_SHOW,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="createId != null">
+				CREATE_ID,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="updateId != null">
+				UPDATE_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				#{pkId,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null">
+				#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="number != null">
+				#{number,jdbcType=INTEGER},
+			</if>
+			<if test="photo != null">
+				#{photo,jdbcType=INTEGER},
+			</if>
+			<if test="isShow != null">
+				#{isShow,jdbcType=OTHER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createId != null">
+				#{createId,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateId != null">
+				#{updateId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<insert id="insertTroll" parameterType="com.jsk.zx.index.model.JskIndexTroll">
+		<selectKey keyProperty="pkId" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into jsk_index_troll
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				PK_ID,
+			</if>
+			<if test="title != null">
+				TITLE,
+			</if>
+			<if test="summary != null">
+				SUMMARY,
+			</if>
+			<if test="content != null">
+				CONTENT,
+			</if>
+			<if test="number != null">
+				NUMBER,
+			</if>
+			<if test="photo != null">
+				PHOTO,
+			</if>
+			<if test="isShow != null">
+				IS_SHOW,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="createId != null">
+				CREATE_ID,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+			<if test="updateId != null">
+				UPDATE_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				#{pkId,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null">
+				#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="number != null">
+				#{number,jdbcType=INTEGER},
+			</if>
+			<if test="photo != null">
+				#{photo,jdbcType=INTEGER},
+			</if>
+			<if test="isShow != null">
+				#{isShow,jdbcType=OTHER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createId != null">
+				#{createId,jdbcType=INTEGER},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateId != null">
+				#{updateId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<insert id="insertTopNews" parameterType="com.jsk.zx.index.model.JskIndexTopNews" >
+	<selectKey keyProperty="pkId" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+    insert into jsk_index_topnews
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="summary != null" >
+        SUMMARY,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="photo != null" >
+        PHOTO,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createId != null" >
+        CREATE_ID,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateId != null" >
+        UPDATE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null" >
+        #{updateId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+   <insert id="insertWorkType" parameterType="com.jsk.zx.index.model.JskIndexWork" >
+   <selectKey keyProperty="pkId" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+    insert into jsk_index_work
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="workName != null" >
+        WORK_NAME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createId != null" >
+        CREATE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=INTEGER},
+      </if>
+      <if test="workName != null" >
+        #{workName,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <insert id="insertServiceWork" parameterType="com.jsk.zx.index.model.JskServiceWork" >
+   <selectKey keyProperty="pkId" order="AFTER" resultType="java.lang.Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+    insert into jsk_service_work
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="serviceId != null" >
+        SERVICE_ID,
+      </if>
+      <if test="workId != null" >
+        WORK_ID,
+      </if>
+      <if test="reqNum != null" >
+        REQ_NUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=INTEGER},
+      </if>
+      <if test="serviceId != null" >
+        #{serviceId,jdbcType=INTEGER},
+      </if>
+      <if test="workId != null" >
+        #{workId,jdbcType=INTEGER},
+      </if>
+      <if test="reqNum != null" >
+        #{workId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,72 @@
+package com.jsk.zx.sys.index.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.alibaba.fastjson.JSON;
+import com.jsk.base.controller.BaseController;
+import com.jsk.zx.sys.index.model.JskSysIndexProduct;
+import com.jsk.zx.sys.index.service.IJskIndexRecommendService;
+import com.mltt.core.entity.Page;
+
+/**
+ * @Title: JskIndexRecommendController.java
+ * @Description: 商品推荐 
+ * @author: lizp
+ * @date: 2018年7月30日 下午5:38:02
+ */
+@Controller("JskIndexRecommendController")
+@RequestMapping("/secure/recommend")
+public class JskIndexRecommendController extends BaseController {
+	
+	@Autowired
+	private IJskIndexRecommendService recommendService;
+
+	@RequestMapping("/findPage")
+	public ModelAndView findPage(JskSysIndexProduct entity, Page<JskSysIndexProduct> page) throws Exception {
+		ModelAndView mav = new ModelAndView("/jsk/zx/index/recommend/recommend_list");
+		mav.addObject("jskSysIndexProduct", entity);
+		mav.addObject("page", recommendService.findPage(entity, page));
+		return mav;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/recommend")
+	public String recommend(Integer pkId) {
+		String result = "";
+		try {
+			int count = recommendService.recommend(pkId);
+			if (count > 0) {
+				result = "{\"success\":\"1\", \"message\":\"推荐成功\"}";
+			} else {
+				result = "{\"success\":\"0\", \"message\":\"推荐失败\"}";
+			}
+		} catch (Exception e) {
+			logger.error("推荐失败，失败原因：" + e);
+			result = "{\"success\":\"0\", \"message\":\"推荐失败 ，原因：" + e.getMessage() + "\"}";
+			e.printStackTrace();
+		}
+		return JSON.toJSONString(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/unrecommend")
+	public String unrecommend(Integer pkId) {
+		String result = "";
+		try {
+			int count = recommendService.unrecommend(pkId);
+			if (count > 0) {
+				result = "{\"success\":\"1\", \"message\":\"取消推荐成功\"}";
+			} else {
+				result = "{\"success\":\"0\", \"message\":\"取消推荐失败\"}";
+			}
+		} catch (Exception e) {
+			logger.error("取消推荐失败，失败原因：" + e);
+			result = "{\"success\":\"0\", \"message\":\"取消推荐失败 ，原因：" + e.getMessage() + "\"}";
+		}
+		return JSON.toJSONString(result);
+	}
+}

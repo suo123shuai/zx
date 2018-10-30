@@ -1,0 +1,38 @@
+package com.jsk.zx.person.mapper;
+
+import java.util.List;
+
+import com.jsk.base.mapper.IBaseMapper;
+import com.jsk.zx.person.model.JskPersonAddress;
+
+public interface JskPersonAddressMapper extends IBaseMapper{
+
+    int insert(JskPersonAddress record);
+
+    /**
+     * @Title: insertSelective
+     * @Description: 添加用户地址
+     * @author: suojinliang
+     * @date: 2018年7月10日 
+     * @param record
+     * @return
+     */
+    int insertSelective(JskPersonAddress record);
+
+
+    /**
+     * @Title: selectByPrimaryKey
+     * @Description: 根据用户ID查询地址
+     * @author: suojinliang
+     * @date: 2018年7月10日 
+     * @param pkId
+     * @return
+     */
+    List<JskPersonAddress> selectByUserKey(Integer userId);
+
+
+    int updateByPrimaryKeySelective(JskPersonAddress record);
+
+    int updateByPrimaryKey(JskPersonAddress record);
+    
+}

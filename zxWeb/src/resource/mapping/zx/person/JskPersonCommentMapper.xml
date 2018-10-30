@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jsk.zx.person.mapper.JskPersonCommentMapper" >
+  <resultMap id="BaseResultMap" type="com.jsk.zx.person.model.JskPersonCommentorAndDetail" >
+    <id column="cID" property="pkId" jdbcType="INTEGER" />
+    <result column="USER_ID" property="userId" jdbcType="INTEGER" />
+    <result column="RECORD_ID" property="recordId" jdbcType="INTEGER" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="COMMENT_TYPE" property="commentType" jdbcType="VARCHAR" />
+    <result column="ANNEX" property="annex" jdbcType="INTEGER" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="NICK_NAME" property="userName" jdbcType="TIMESTAMP"/>
+    <result column="pk_id" property="userId" jdbcType="INTEGER"/>
+    <collection property="commentDetail" ofType="com.jsk.zx.person.model.JskPersonCommentDetail" select="getCommentDetail" column="cid">
+    </collection>
+  </resultMap>
+  
+  <resultMap id="BaseResultDetailMap" type="com.jsk.zx.person.model.JskPersonCommentDetail">
+    <id column="dID" jdbcType="INTEGER" property="pkId" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="COMMENT_ID" jdbcType="VARCHAR" property="commentId" />
+    <result column="COMMENT_LEVEL" jdbcType="INTEGER" property="commentLevel" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="uid" property="userId" jdbcType="INTEGER"/>
+  </resultMap>
+    
+  <select id="findByRecordId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,u.pk_id ,u.nick_name 
+    from jsk_person_comment c
+    LEFT JOIN JSK_SYS_USER  u 
+    ON c.user_id = u.pk_id 
+    where c.RECORD_ID = #{recordId,jdbcType=INTEGER}
+    and c.type = #{type,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getCommentDetail" parameterType="java.lang.Integer" resultMap="BaseResultDetailMap">
+    select 
+    <include refid="Base_ColumnDetail_List" />
+    ,u.pk_id,u.nick_name 
+    from jsk_person_comment_detail d
+    LEFT JOIN JSK_SYS_USER  u 
+    ON d.user_id = u.pk_id
+    where comment_id = #{cid,jdbcType=INTEGER}
+  </select>
+  <sql id="Base_ColumnDetail_List">
+    d.PK_ID did, d.USER_ID, d.COMMENT_ID, d.COMMENT_LEVEL, d.CONTENT, d.STATUS, d.CREATE_TIME
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    c.PK_ID cid, c.USER_ID, c.RECORD_ID, c.TYPE, c.COMMENT_TYPE, c.ANNEX, c.CONTENT, c.STATUS, c.CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from jsk_person_comment 
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from jsk_person_comment
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.jsk.zx.person.model.JskPersonComment" >
+    insert into jsk_person_comment (PK_ID, USER_ID, RECORD_ID, 
+      TYPE, COMMENT_TYPE, ANNEX, 
+      CONTENT, STATUS, CREATE_TIME
+      )
+    values (#{pkId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, 
+      #{type,jdbcType=VARCHAR}, #{commentType,jdbcType=VARCHAR}, #{annex,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="saveCommentSelective" parameterType="com.jsk.zx.person.model.JskPersonComment" >
+    insert into jsk_person_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="recordId != null" >
+        RECORD_ID,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="commentType != null" >
+        COMMENT_TYPE,
+      </if>
+      <if test="annex != null" >
+        ANNEX,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null" >
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="commentType != null" >
+        #{commentType,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        #{annex,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jsk.zx.person.model.JskPersonComment" >
+    update jsk_person_comment
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null" >
+        RECORD_ID = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="commentType != null" >
+        COMMENT_TYPE = #{commentType,jdbcType=VARCHAR},
+      </if>
+      <if test="annex != null" >
+        ANNEX = #{annex,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jsk.zx.person.model.JskPersonComment" >
+    update jsk_person_comment
+    set USER_ID = #{userId,jdbcType=INTEGER},
+      RECORD_ID = #{recordId,jdbcType=INTEGER},
+      TYPE = #{type,jdbcType=VARCHAR},
+      COMMENT_TYPE = #{commentType,jdbcType=VARCHAR},
+      ANNEX = #{annex,jdbcType=INTEGER},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateGoodproductByPrimaryKey" parameterType="Integer">
+  	UPDATE jsk_index_goodproduct SET comment_num = comment_num + 1 WHERE pk_id = #{pkId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateMarketByPrimaryKey" parameterType="Integer">
+  	UPDATE jsk_person_market SET comment_num = comment_num + 1 WHERE pk_id = #{pkId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateProductByPrimaryKey" parameterType="Integer">
+  	UPDATE jsk_index_product SET comment_num = comment_num + 1 WHERE pk_id = #{pkId,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateServiceByPrimaryKey" parameterType="Integer">
+  	UPDATE jsk_index_service SET comment_num = comment_num + 1 WHERE pk_id = #{pkId,jdbcType=INTEGER}
+  </update>
+</mapper>

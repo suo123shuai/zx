@@ -1,0 +1,14 @@
+package com.jsk.zx.person.service;
+
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.person.model.JskPersonAddress;
+
+public interface  IPersonAddressService {
+	
+	ResultUtil findPersonAddressById(int userId) throws Exception;
+	
+	ResultUtil createOrUpdatePersonAddress(JskPersonAddress jskPersonAddress) throws Exception;
+	
+	ResultUtil deletePersonAddressById(int pkId) throws Exception;
+
+}

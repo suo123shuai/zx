@@ -1,0 +1,46 @@
+/*·ÖÒ³×¨ÓÃ*/
+.page-turning{font-size:12px;color: #428bca;}
+.page-turning em{ float:left;}
+.page-turning .text{ width:25px; border:solid 1px #A3ADBA; *line-height:24px;height:24px; margin:0 3px; text-align:center;}
+.page-turning .line-l{ border-right: solid 1px #FFF; /* line-height: 1.42857143; */margin-right:10px;}
+.page-turning .line-l em{ border-right: solid 1px #428bca; padding:0 10px;}
+.page-turning .line-c{ border-left: solid 1px #428bca; border-right: solid 1px #FFF; margin-right:10px;}
+.page-turning .line-c em{ border-left: solid 1px #FFF; border-right: solid 1px #428bca; padding:0 10px;}
+.page-turning .line-r{ border-left: solid 1px #428bca;}
+.page-turning .line-r em{ border-left: solid 1px #FFF; padding:0 10px;}
+.page-turning b{ padding:0 10px; color: #428bca;}
+.edit{width: 16px; height: 16px; vertical-align: middle; display: inline-block; text-indent: -9999px; background: url(../images/edit_ico.png) no-repeat center center;}
+.del{width: 16px; height: 16px; vertical-align: middle; display: inline-block; text-indent: -9999px; background: url(../images/delete_ico.png) no-repeat center center;}
+.enable{width: 16px; height: 16px; vertical-align: middle; display: inline-block; text-indent: -9999px; background: url(../images/confirm_ico.png) no-repeat center center;}
+.pause{width: 16px; height: 16px; vertical-align: middle; display: inline-block; text-indent: -9999px; background: url(../images/cancel_ico.png) no-repeat center center;}
+.enpower{width: 16px; height: 16px; vertical-align: middle; display: inline-block; text-indent: -9999px; background: url(../images/address_ico.png) no-repeat center center;}
+.refresh{width: 16px; height: 16px; vertical-align: middle; display: inline-block; text-indent: -9999px; background: url(../images/refresh_ico.png) no-repeat center center;}
+.track{width: 16px; height: 16px; vertical-align: middle; display: inline-block; text-indent: -9999px; background: url(../images/track_ico.png) no-repeat center center;}
+.goLive{width: 16px; height: 16px; vertical-align: middle; display: inline-block; text-indent: -9999px; background: url(../images/goLive_ico.png) no-repeat center center;}
+.fileIco{width: 16px; height: 16px; vertical-align: middle; display: inline-block; text-indent: -9999px; background: url(../images/file_ico.png) no-repeat center center;}
+.org{width: 16px; height: 16px; vertical-align: middle; display: inline-block; text-indent: -9999px; background: url(../images/org_ico.png) no-repeat center center;}
+.menu{width: 16px; height: 16px; vertical-align: middle; display: inline-block; text-indent: -9999px; background: url(../images/menu_ico.png) no-repeat center center;}
+.close_ico{width: 16px; height: 16px; vertical-align: middle; display: inline-block; text-indent: -9999px; background: url(../images/close_ico.png) no-repeat center center;}
+.org_ico{ background: url(../images/org_ico.png) no-repeat center center;}
+.menu_ico{ background: url(../images/menu_ico.png) no-repeat center center;}
+.save_ico { background: url(../images/save_ico.png) no-repeat left center; }
+.history_ico { background: url(../images/history_ico.png) no-repeat left center; }
+.edit_ico { background: url(../images/edit_ico.png) no-repeat left center; }
+.add_ico { background: url(../images/add_ico.png) no-repeat left center; }
+.addmen_ico { background: url(../images/addmen_ico.png) no-repeat left center; }
+.cancel_ico { background: url(../images/cancel_ico.png) no-repeat left center; }
+/* .close_ico { background: url(../images/close_ico.png) no-repeat left center; } */
+.confirm_ico { background: url(../images/confirm_ico.png) no-repeat left center; }
+.days_ico { background: url(../images/days_ico.png) no-repeat left center; }
+.delete_ico { background: url(../images/delete_ico.png) no-repeat left center; }
+.folder_ico { background: url(../images/folder_ico.png) no-repeat left center; }
+.search_ico { background: url(../images/search_ico.png) no-repeat left center; }
+.track_ico { background: url(../images/track_ico.png) no-repeat left center; }
+.refresh_ico { background: url(../images/refresh_ico.png) no-repeat left center; }
+.build_event_ico { background: url(../images/build_event_ico.png) no-repeat left center; }
+.address_ico { background: url(../images/address_ico.png) no-repeat left center; }
+.templeti_ico { background: url(../images/templeti_ico.png) no-repeat left center; }
+.back_ico { background: url(../images/arrow_1b.png) no-repeat left center; }
+.t01_ico { background: url(../images/t01.png) no-repeat left center; }
+.file_ico { background: url(../images/file_ico.png) no-repeat left center; }
+.goLive_ico{ background: url(../images/goLive_ico.png) no-repeat center center;}

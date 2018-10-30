@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jsk.zx.system.mapper.UserCheckMapper">
+	<resultMap id="BaseResultMap" type="com.jsk.zx.system.model.JskSys1User">
+		<id column="uPK_ID" property="pkId" jdbcType="INTEGER" />
+		<id column="CREATE_ID" property="createId" jdbcType="INTEGER" />
+		<result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
+		<result column="LOGIN_PWD" property="loginPwd" jdbcType="VARCHAR" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
+		<result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+		<result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+		<result column="SEX" property="sex" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="REASON" property="reason" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="IDENTIFY" property="identify" jdbcType="VARCHAR" />
+		<result column="CITY" property="city" jdbcType="VARCHAR" />
+		<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+		<result column="WORK_TYPE" property="workType" jdbcType="VARCHAR" />
+		<result column="WORK_TYPE_SMALL" property="workTypeSmall"
+			jdbcType="VARCHAR" />
+		<result column="IDENTIFY_FACAD" property="identifyFacad"
+			jdbcType="INTEGER" />
+		<result column="IDENTIFY_BACK" property="identifyBack"
+			jdbcType="INTEGER" />
+		<result column="CARD_PHOTO" property="cardPhoto" jdbcType="INTEGER" />
+		<result column="HEAD_PHOTO" property="headPhoto" jdbcType="INTEGER" />
+		<result column="SKILL" property="skill" jdbcType="VARCHAR" />
+		<result column="SPACE" property="space" jdbcType="VARCHAR" />
+		<result column="APPRAISE" property="appraise" jdbcType="VARCHAR" />
+		<result column="PERMIT_PHOTO" property="permitPhoto" jdbcType="INTEGER" />
+		<result column="COMPANY_SPACE" property="companySpace"
+			jdbcType="VARCHAR" />
+		<result column="COMPANY_TYPE" property="companyType" jdbcType="VARCHAR" />
+		<result column="PRODUCT" property="product" jdbcType="VARCHAR" />
+		<result column="BANKCARD_id" property="bankcardId" jdbcType="INTEGER" />
+		<result column="PRAISE_NUM" property="praiseNum" jdbcType="INTEGER" />
+		<result column="COMMENT_NUM" property="commentNum" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_ID" property="updateId" jdbcType="INTEGER" />
+		<result column="BIRTHDAY" property="birthday" jdbcType="VARCHAR" />
+		<result column="AGE" property="age" jdbcType="INTEGER" />
+		<result column="ASSURE_MONEY" property="assureMoney" jdbcType="FLOAT" />
+		<result column="RANK" property="rank" jdbcType="INTEGER" />
+		<result column="RATE" property="rate" jdbcType="FLOAT" />
+		<result column="INTEGRAL_TOTAL" property="integralTotal"
+			jdbcType="INTEGER" />		
+		<result column="INTEGRAL" property="integral" jdbcType="INTEGER" />
+		<result column="CHECK_TIME" property="checkTime" jdbcType="TIMESTAMP" />
+		<result column="CHECK_ID" property="checkId" jdbcType="INTEGER" />
+		<result column="balance" property="balance" jdbcType="FLOAT" />
+		<collection property="JskSysAnnex" javaType="java.util.List"
+			ofType="com.jsk.zx.login.model.JskSysAnnex">
+			<id column="PK_ID" property="pkId" jdbcType="INTEGER" />
+			<result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		u.PK_ID uPK_ID, u.CREATE_ID, u.LOGIN_NAME, u.LOGIN_PWD, u.USER_NAME,
+		u.NICK_NAME, u.MOBILE, u.TELEPHONE,
+		u.SEX, u.EMAIL, u.STATUS, u.REASON, u.TYPE, u.IDENTIFY, u.CITY, u.ADDRESS,
+		u.WORK_TYPE, u.WORK_TYPE_SMALL,
+		u.IDENTIFY_FACAD, u.IDENTIFY_BACK, u.CARD_PHOTO, u.HEAD_PHOTO, u.SKILL, u.SPACE,
+		u.APPRAISE, u.PERMIT_PHOTO,
+		u.COMPANY_SPACE, u.COMPANY_TYPE, u.PRODUCT, u.BANKCARD_id, u.PRAISE_NUM,
+		u.COMMENT_NUM, u.CREATE_TIME,
+		u.UPDATE_TIME, u.UPDATE_ID,a.PK_ID,a.FILE_PATH
+	</sql>
+	<sql id="User_Column_List">
+		u.PK_ID uPK_ID, u.LOGIN_NAME, u.USER_NAME, u.MOBILE, u.TELEPHONE,
+		u.HEAD_PHOTO, u.SKILL, u.SPACE, u.APPRAISE,u.INTEGRAL,u.TYPE,u.balance,u.NICK_NAME,
+		a.PK_ID,a.FILE_PATH
+	</sql>
+	<select id="findUserInfoById" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="User_Column_List" />
+		from jsk_sys_user u
+		left join jsk_sys_annex a
+		on u.HEAD_PHOTO=a.PK_ID
+		where u.PK_ID=#{pkId}
+	</select>
+	<select id="findUserByStatus" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_sys_user u
+		left join jsk_sys_annex a
+		on u.CARD_PHOTO=a.PK_ID OR u.HEAD_PHOTO=a.PK_ID OR
+		u.PERMIT_PHOTO=a.PK_ID
+		where u.STATUS =0
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="com.jsk.zx.system.model.JskSysUser">
+		delete from jsk_sys_user
+		where PK_ID = #{pkId,jdbcType=INTEGER}
+		and CREATE_ID = #{createId}
+	</delete>
+	<update id="updateByPrimaryKeySelective" parameterType="com.jsk.zx.system.model.JskSysUser">
+		update jsk_sys_user
+		<set>
+			<if test="loginName != null">
+				LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+			</if>
+			<if test="loginPwd != null">
+				LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				USER_NAME = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="nickName != null">
+				NICK_NAME = #{nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				MOBILE = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="telephone != null">
+				TELEPHONE = #{telephone,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				SEX = #{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				EMAIL = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="reason != null">
+				REASON = #{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=VARCHAR},
+			</if>
+			<if test="identify != null">
+				IDENTIFY = #{identify,jdbcType=VARCHAR},
+			</if>
+			<if test="city != null">
+				CITY = #{city,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="workType != null">
+				WORK_TYPE = #{workType,jdbcType=VARCHAR},
+			</if>
+			<if test="workTypeSmall != null">
+				WORK_TYPE_SMALL = #{workTypeSmall,jdbcType=VARCHAR},
+			</if>
+			<if test="identifyFacad != null">
+				IDENTIFY_FACAD = #{identifyFacad,jdbcType=INTEGER},
+			</if>
+			<if test="identifyBack != null">
+				IDENTIFY_BACK = #{identifyBack,jdbcType=INTEGER},
+			</if>
+			<if test="cardPhoto != null">
+				CARD_PHOTO = #{cardPhoto,jdbcType=INTEGER},
+			</if>
+			<if test="headPhoto != null">
+				HEAD_PHOTO = #{headPhoto,jdbcType=INTEGER},
+			</if>
+			<if test="skill != null">
+				SKILL = #{skill,jdbcType=VARCHAR},
+			</if>
+			<if test="space != null">
+				SPACE = #{space,jdbcType=VARCHAR},
+			</if>
+			<if test="appraise != null">
+				APPRAISE = #{appraise,jdbcType=VARCHAR},
+			</if>
+			<if test="permitPhoto != null">
+				PERMIT_PHOTO = #{permitPhoto,jdbcType=INTEGER},
+			</if>
+			<if test="companySpace != null">
+				COMPANY_SPACE = #{companySpace,jdbcType=VARCHAR},
+			</if>
+			<if test="companyType != null">
+				COMPANY_TYPE = #{companyType,jdbcType=VARCHAR},
+			</if>
+			<if test="product != null">
+				PRODUCT = #{product,jdbcType=VARCHAR},
+			</if>
+			<if test="bankcardId != null">
+				BANKCARD_id = #{bankcardId,jdbcType=INTEGER},
+			</if>
+			<if test="praiseNum != null">
+				PRAISE_NUM = #{praiseNum,jdbcType=INTEGER},
+			</if>
+			<if test="commentNum != null">
+				COMMENT_NUM = #{commentNum,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateId != null">
+				UPDATE_ID = #{updateId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where PK_ID = #{pkId,jdbcType=INTEGER}
+		and CREATE_ID = #{createId,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -1,0 +1,17 @@
+/**
+ * 
+ */
+package com.jsk.zx.sys.index.mapper;
+
+import com.jsk.zx.index.model.JskIndexRecommend;
+import com.mltt.core.mapper.IBaseMapper;
+
+/**
+ * @Title: IJskIndexRecommendMapper.java
+ * @Description: TODO 
+ * @author: lizp
+ * @date: 2018年7月30日 下午5:32:51
+ */
+public interface IJskIndexRecommendMapper extends IBaseMapper<JskIndexRecommend>{
+
+}

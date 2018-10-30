@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsk.zx.person.mapper.JskPersonMarketMapper">
+	<resultMap id="BaseResultMap" type="com.jsk.zx.person.model.JskPersonMarket">
+		<id column="PK_ID" jdbcType="INTEGER" property="pkId" />
+		<result column="TITLE" jdbcType="VARCHAR" property="title" />
+		<result column="SUMMARY" jdbcType="VARCHAR" property="summary" />
+		<result column="CONTENT" jdbcType="VARCHAR" property="content" />
+		<result column="TYPE" jdbcType="VARCHAR" property="type" />
+		<result column="PHOTO" jdbcType="INTEGER" property="photo" />
+		<result column="PRICE" jdbcType="REAL" property="price" />
+		<result column="STATUS" jdbcType="VARCHAR" property="status" />
+		<result column="PRAISE_NUM" jdbcType="INTEGER" property="praiseNum" />
+		<result column="COMMENT_NUM" jdbcType="INTEGER" property="commentNum" />
+		<result column="TOTAL_NUM" jdbcType="INTEGER" property="totalNum" />
+		<result column="SALE_NUM" jdbcType="INTEGER" property="saleNum" />
+		<result column="STANDARD_ID" jdbcType="INTEGER" property="standardId" />
+		<result column="SEASON" jdbcType="VARCHAR" property="season" />
+		<result column="VOLUME" jdbcType="VARCHAR" property="volume" />
+		<result column="BHMZ_TYPE" jdbcType="VARCHAR" property="bhmzType" />
+		<result column="WSHL_TYPE" jdbcType="VARCHAR" property="wshlType" />
+		<result column="IN_TIME" jdbcType="VARCHAR" property="inTime" />
+		<result column="CREATE_DATE" jdbcType="DATE" property="createDate" />
+		<result column="BRAND_NAME" jdbcType="VARCHAR" property="brandName" />
+		<result column="SUNSCREEN" jdbcType="VARCHAR" property="sunscreen" />
+		<result column="EFFECT" jdbcType="VARCHAR" property="effect" />
+		<result column="SUIT_SKIN" jdbcType="VARCHAR" property="suitSkin" />
+		<result column="IS_SPECIAL" jdbcType="BIT" property="isSpecial" />
+		<result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="CREATE_ID" jdbcType="INTEGER" property="createId" />
+		<result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="UPDATE_ID" jdbcType="INTEGER" property="updateId" />
+		<collection property="JskSysAnnex" javaType="java.util.List"
+			ofType="com.jsk.zx.login.model.JskSysAnnex">
+			<id column="aPK_ID" property="pkId" jdbcType="INTEGER" />
+			<result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		m.PK_ID, m.TITLE, m.SUMMARY, m.CONTENT, m.TYPE, m.PHOTO, m.PRICE, m.STATUS,
+		m.PRAISE_NUM,
+		m.COMMENT_NUM,
+		m.TOTAL_NUM, m.SALE_NUM, m.STANDARD_ID, m.SEASON,
+		m.VOLUME, m.BHMZ_TYPE, m.WSHL_TYPE, m.IN_TIME,
+		m.CREATE_DATE, m.BRAND_NAME,
+		m.SUNSCREEN, m.EFFECT, m.SUIT_SKIN, m.IS_SPECIAL,
+		m.CREATE_TIME, m.CREATE_ID,
+		m.UPDATE_TIME, m.UPDATE_ID,a.PK_ID aPK_ID,a.FILE_PATH
+	</sql>
+	<select id="findList" resultMap="BaseResultMap">
+	select 
+    <include refid="Base_Column_List" />
+	from JSK_PERSON_MARKET m
+	left join jsk_sys_annex a
+		on m.PHOTO=a.PK_ID
+	order by create_time desc
+  </select>
+  
+  <select id="edit" resultMap="BaseResultMap">
+	select
+	<include refid="Base_Column_List" />
+	from JSK_PERSON_MARKET m
+	left join jsk_sys_annex a
+		on m.PHOTO=a.PK_ID
+	where pk_id=#{pkId,jdbcType=INTEGER}
+  </select>
+	<delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from JSK_PERSON_MARKET m
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </delete>
+  
+ <insert id="insert" parameterType="com.jsk.zx.person.model.JskPersonMarket" >
+ 	<selectKey keyProperty="pkId" order="AFTER" resultType="java.lang.Integer">
+		SELECT LAST_INSERT_ID()
+	</selectKey>
+    insert into JSK_PERSON_MARKET m
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="summary != null" >
+        SUMMARY,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="photo != null" >
+        PHOTO,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="praiseNum != null" >
+        PRAISE_NUM,
+      </if>
+      <if test="commentNum != null" >
+        COMMENT_NUM,
+      </if>
+      <if test="totalNum != null" >
+        TOTAL_NUM,
+      </if>
+      <if test="saleNum != null" >
+        SALE_NUM,
+      </if>
+      <if test="standardId != null" >
+        STANDARD_ID,
+      </if>
+      <if test="season != null" >
+        SEASON,
+      </if>
+      <if test="volume != null" >
+        VOLUME,
+      </if>
+      <if test="bhmzType != null" >
+        BHMZ_TYPE,
+      </if>
+      <if test="wshlType != null" >
+        WSHL_TYPE,
+      </if>
+      <if test="inTime != null" >
+        IN_TIME,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="brandName != null" >
+        BRAND_NAME,
+      </if>
+      <if test="sunscreen != null" >
+        SUNSCREEN,
+      </if>
+      <if test="effect != null" >
+        EFFECT,
+      </if>
+      <if test="suitSkin != null" >
+        SUIT_SKIN,
+      </if>
+      <if test="isSpecial != null" >
+        IS_SPECIAL,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createId != null" >
+        CREATE_ID,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateId != null" >
+        UPDATE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        #{pkId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="praiseNum != null" >
+        #{praiseNum,jdbcType=INTEGER},
+      </if>
+      <if test="commentNum != null" >
+        #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalNum != null" >
+        #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="saleNum != null" >
+        #{saleNum,jdbcType=INTEGER},
+      </if>
+      <if test="standardId != null" >
+        #{standardId,jdbcType=INTEGER},
+      </if>
+      <if test="season != null" >
+        #{season,jdbcType=VARCHAR},
+      </if>
+      <if test="volume != null" >
+        #{volume,jdbcType=VARCHAR},
+      </if>
+      <if test="bhmzType != null" >
+        #{bhmzType,jdbcType=VARCHAR},
+      </if>
+      <if test="wshlType != null" >
+        #{wshlType,jdbcType=VARCHAR},
+      </if>
+      <if test="inTime != null" >
+        #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="sunscreen != null" >
+        #{sunscreen,jdbcType=VARCHAR},
+      </if>
+      <if test="effect != null" >
+        #{effect,jdbcType=VARCHAR},
+      </if>
+      <if test="suitSkin != null" >
+        #{suitSkin,jdbcType=VARCHAR},
+      </if>
+      <if test="isSpecial != null" >
+        #{isSpecial,jdbcType=OTHER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null" >
+        #{updateId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.jsk.zx.person.model.JskPersonMarket" >
+    update JSK_PERSON_MARKET m
+    <set >
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        SUMMARY = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{status,jdbcType=FLOAT},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null" >
+        CREATE_ID = #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null" >
+        UPDATE_ID = #{updateId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </update>
+  <select id="selectMarketByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_person_market m
+		left join jsk_sys_annex a
+		on m.PHOTO=a.PK_ID
+		where m.PK_ID = #{pkId,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByInKey" parameterType="java.util.ArrayList"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_person_market
+		where PK_ID in
+		<foreach collection="array" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	
+	<select id="selectPersonMarket"  resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_person_market m
+		left join jsk_sys_annex a
+		on m.PHOTO=a.PK_ID
+	</select>
+</mapper>

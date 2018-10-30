@@ -1,0 +1,20 @@
+package com.jsk.zx.sys.index.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.jsk.zx.index.model.JskIndexRecommend;
+import com.jsk.zx.sys.index.service.impl.JskIndexRecommendServiceImpl;
+import com.mltt.core.controller.BaseController;
+
+/**
+ * @Title: JskIndexRecommendController.java
+ * @Description: 商品推荐 
+ * @author: lizp
+ * @date: 2018年7月30日 下午5:38:02
+ */
+@Controller("JskIndexRecommendController")
+@RequestMapping("/secure/recommend")
+public class JskIndexRecommendController extends BaseController<JskIndexRecommend, JskIndexRecommendServiceImpl> {
+
+}

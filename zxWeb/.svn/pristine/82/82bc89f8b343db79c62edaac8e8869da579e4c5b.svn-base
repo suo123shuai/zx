@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jsk.zx.system.mapper.IJskSysUserMapper" >
+  <resultMap id="BaseResultMap" type="com.jsk.zx.system.model.JskSysUser" >
+    <id column="PK_ID" property="pkId" jdbcType="INTEGER" />
+    <id column="CREATE_ID" property="createId" jdbcType="INTEGER" />
+    <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
+    <result column="LOGIN_PWD" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
+    <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+    <result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="REASON" property="reason" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="IDENTIFY" property="identify" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="WORK_TYPE" property="workType" jdbcType="VARCHAR" />
+    <result column="WORK_TYPE_SMALL" property="workTypeSmall" jdbcType="VARCHAR" />
+    <result column="IDENTIFY_FACAD" property="identifyFacad" jdbcType="INTEGER" />
+    <result column="IDENTIFY_BACK" property="identifyBack" jdbcType="INTEGER" />
+    <result column="CARD_PHOTO" property="cardPhoto" jdbcType="INTEGER" />
+    <result column="HEAD_PHOTO" property="headPhoto" jdbcType="INTEGER" />
+    <result column="SKILL" property="skill" jdbcType="VARCHAR" />
+    <result column="SPACE" property="space" jdbcType="VARCHAR" />
+    <result column="APPRAISE" property="appraise" jdbcType="VARCHAR" />
+    <result column="PERMIT_PHOTO" property="permitPhoto" jdbcType="INTEGER" />
+    <result column="COMPANY_SPACE" property="companySpace" jdbcType="VARCHAR" />
+    <result column="COMPANY_TYPE" property="companyType" jdbcType="VARCHAR" />
+    <result column="PRODUCT" property="product" jdbcType="VARCHAR" />
+    <result column="BANKCARD_id" property="bankcardId" jdbcType="INTEGER" />
+    <result column="PRAISE_NUM" property="praiseNum" jdbcType="INTEGER" />
+    <result column="COMMENT_NUM" property="commentNum" jdbcType="INTEGER" />
+    <result column="ASSURE_MONEY" property="assureMoney" jdbcType="FLOAT" />
+    <result column="RATE" property="rate" jdbcType="FLOAT" />
+    <result column="RANK" property="rank" jdbcType="INTEGER" />
+    <result column="INTEGRAL" property="integral" jdbcType="INTEGER" />
+    <result column="INTEGRAL_TOTAL" property="integralTotal" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_ID" property="updateId" jdbcType="INTEGER" />
+    <association property="identifyFacada" column="IDENTIFY_FACAD" select="findannex" >
+    
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PK_ID, CREATE_ID, LOGIN_NAME, LOGIN_PWD, USER_NAME, NICK_NAME, MOBILE, TELEPHONE, 
+    SEX, EMAIL, STATUS, REASON, TYPE, IDENTIFY, CITY, ADDRESS, WORK_TYPE, WORK_TYPE_SMALL, 
+    IDENTIFY_FACAD, IDENTIFY_BACK, CARD_PHOTO, HEAD_PHOTO, SKILL, SPACE, APPRAISE, PERMIT_PHOTO, 
+    COMPANY_SPACE, COMPANY_TYPE, PRODUCT, BANKCARD_id, PRAISE_NUM, COMMENT_NUM, CREATE_TIME, 
+    UPDATE_TIME, UPDATE_ID,assure_money,rate,rank,integral,integral_total
+  </sql>
+  <select id="findannex" parameterType="java.lang.Integer" resultType="java.lang.String">
+  	select FILE_PATH from jsk_sys_annex where PK_ID = #{pkId}
+  </select>
+  <select id="findByLoginName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from jsk_sys_user u
+    where u.STATUS = 2 and LOGIN_NAME=#{loginName} 
+  </select>
+  <select id="findByLoginId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from jsk_sys_user u
+    where PK_ID = #{pkId} 
+  </select>
+  <select id="findList" resultMap="BaseResultMap">
+	select 
+    <include refid="Base_Column_List" />
+	from JSK_SYS_USER
+	<include refid="where"/>
+	order by create_time desc
+  </select>
+  <sql id="where">
+  		where 1=1
+  		<if test="loginName!=null and loginName!=''">
+  			and LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+  		</if>
+  	</sql>
+  <select id="edit" resultMap="BaseResultMap">
+	select
+	<include refid="Base_Column_List" />
+	from JSK_SYS_USER
+	where pk_id=#{pkId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from JSK_SYS_USER
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.jsk.zx.system.model.JskSysUser" >
+  	<selectKey keyProperty="pkId" order="AFTER" resultType="java.lang.Integer">
+		SELECT LAST_INSERT_ID()
+	</selectKey>
+    insert into JSK_SYS_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pkId != null" >
+        PK_ID,
+      </if>
+      <if test="loginName != null" >
+        login_Name,
+      </if>
+      <if test="loginPwd != null" >
+        login_Pwd,
+      </if>
+      <if test="userName != null" >
+        user_Name,
+      </if>
+      <if test="nickName != null" >
+        nick_Name,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="rate != null" >
+        rate,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createId != null" >
+        CREATE_ID,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="updateId != null" >
+        UPDATE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="loginName != null" >
+        #{loginName,jdbcType=INTEGER},
+      </if>
+      <if test="loginPwd != null" >
+        #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null" >
+        #{rate,jdbcType=FLOAT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null" >
+        #{updateId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.jsk.zx.system.model.JskSysUser" >
+    update JSK_SYS_USER
+    <set >
+      <if test="loginName != null" >
+        login_Name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        login_Pwd = #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_Name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nick_Name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=INTEGER},
+      </if>
+      <if test="rate != null" >
+        rate = #{rate,jdbcType=FLOAT},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null" >
+        CREATE_ID = #{createId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null" >
+        UPDATE_ID = #{updateId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </update>
+</mapper>

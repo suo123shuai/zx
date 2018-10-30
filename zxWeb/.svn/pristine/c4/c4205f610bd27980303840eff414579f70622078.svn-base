@@ -1,0 +1,30 @@
+/**
+ * 
+ */
+
+package com.jsk.zx.index.mapper;
+
+import java.util.List;
+
+import com.jsk.base.mapper.IBaseMapper;
+import com.jsk.zx.index.model.JskIndexFindProduct;
+
+public interface FindProductMapper extends IBaseMapper {
+
+	public List<JskIndexFindProduct> selectProductByYcys();
+
+	public List<JskIndexFindProduct> selectProductByQxdp();
+
+	public List<JskIndexFindProduct> selectProductByWjjc();
+
+	public List<JskIndexFindProduct> selectProductByJjby();
+
+	public List<JskIndexFindProduct> selectProductByTc();
+
+	public List<JskIndexFindProduct> selectProductByType(String type);
+
+	List<JskIndexFindProduct> selectProducts();
+
+	List<JskIndexFindProduct> selectProductById(int pkId);
+
+}

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsk.zx.person.mapper.JskPersonCommentDetailMapper">
+  <resultMap id="BaseResultMap" type="com.jsk.zx.person.model.JskPersonCommentDetail">
+    <id column="PK_ID" jdbcType="INTEGER" property="pkId" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="COMMENT_ID" jdbcType="VARCHAR" property="commentId" />
+    <result column="COMMENT_LEVEL" jdbcType="INTEGER" property="commentLevel" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    PK_ID, USER_ID, COMMENT_ID, COMMENT_LEVEL, CONTENT, STATUS, CREATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jsk_person_comment_detail
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from jsk_person_comment_detail
+    where COMMENT_ID = #{pkId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByPkId" parameterType="java.lang.Integer">
+    delete from jsk_person_comment_detail
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.jsk.zx.person.model.JskPersonCommentDetail">
+    insert into jsk_person_comment_detail (PK_ID, USER_ID, COMMENT_ID, 
+      COMMENT_LEVEL, CONTENT, STATUS, 
+      CREATE_TIME)
+    values (#{pkId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{commentId,jdbcType=VARCHAR}, 
+      #{commentLevel,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="saveCommentDetail" parameterType="com.jsk.zx.person.model.JskPersonCommentDetail">
+    insert into jsk_person_comment_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="commentId != null">
+        COMMENT_ID,
+      </if>
+      <if test="commentLevel != null">
+        COMMENT_LEVEL,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="commentId != null">
+        #{commentId,jdbcType=VARCHAR},
+      </if>
+      <if test="commentLevel != null">
+        #{commentLevel,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.jsk.zx.person.model.JskPersonCommentDetail">
+    update jsk_person_comment_detail
+    set USER_ID = #{userId,jdbcType=INTEGER},
+      COMMENT_ID = #{commentId,jdbcType=VARCHAR},
+      COMMENT_LEVEL = #{commentLevel,jdbcType=INTEGER},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </update>
+</mapper>

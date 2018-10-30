@@ -1,0 +1,33 @@
+package com.jsk.zx.index.mapper;
+
+import java.util.List;
+
+import com.jsk.base.mapper.IBaseMapper;
+import com.jsk.zx.index.model.JskIndexNews;
+/**
+ * 
+ * @author suojinliang
+ * @date 2018年6月14日
+ */
+public interface JskIndexNewsMapper extends IBaseMapper{
+    int deleteByPrimaryKey(Integer pkId);
+
+    int insert(JskIndexNews record);
+
+    int insertSelective(JskIndexNews record);
+
+    JskIndexNews selectByPrimaryKey(Integer pkId);
+
+    int updateByPrimaryKeySelective(JskIndexNews record);
+
+    int updateByPrimaryKey(JskIndexNews record);
+    
+    /**
+     * 
+     * @Description:根据消息类型ID查询消息
+     * @param type
+     * @return
+     * 2018年6月14日
+     */
+    List<JskIndexNews> findByType(String type);
+}

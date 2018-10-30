@@ -1,0 +1,46 @@
+package com.jsk.zx.index.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.jsk.base.controller.BaseController;
+import com.jsk.zx.index.model.JskIndexNews;
+import com.jsk.zx.index.service.IJskIndexNewsService;
+import com.jsk.zx.login.common.ResultUtil;
+
+@Controller
+@RequestMapping("/news")
+public class JskIndexNewsController extends BaseController{
+
+	@Autowired
+	private IJskIndexNewsService jskIndexNewsService;
+	
+	@RequestMapping("/findBySystem")
+	@ResponseBody
+	public String findBySystem(){
+		try {
+			ResultUtil resultUtil = jskIndexNewsService.findByType();
+			return JSON.toJSONString(resultUtil);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+		}
+		return null;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/findBytype")
+	public String findBytype(Integer userId){
+		ResultUtil resu = jskIndexNewsService.findByUsertype(userId);
+		return JSON.toJSONString(resu);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/addnews")
+	public String saveNews(JskIndexNews jskIndexNews){
+		ResultUtil resu = jskIndexNewsService.saveNews(jskIndexNews);
+		return JSON.toJSONString(resu);
+	}
+}

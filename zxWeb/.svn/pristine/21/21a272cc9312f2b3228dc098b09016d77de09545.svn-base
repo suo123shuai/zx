@@ -1,0 +1,13 @@
+package com.jsk.zx.sys.service.impl;
+
+import org.springframework.stereotype.Service;
+
+import com.jsk.zx.sys.mapper.IJskSysAnnexMapper;
+import com.jsk.zx.sys.model.JskSysAnnex;
+import com.jsk.zx.sys.service.IJskSysAnnexService;
+import com.mltt.core.service.BaseService;
+
+@Service
+public class JskSysAnnexServiceImpl extends BaseService<JskSysAnnex, IJskSysAnnexMapper> implements IJskSysAnnexService {
+
+}

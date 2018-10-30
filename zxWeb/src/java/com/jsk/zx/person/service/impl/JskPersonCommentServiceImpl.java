@@ -1,0 +1,175 @@
+package com.jsk.zx.person.service.impl;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import com.jsk.base.service.BaseService;
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.login.mapper.JskSysUserMapper;
+import com.jsk.zx.person.mapper.JskPersonCommentDetailMapper;
+import com.jsk.zx.person.mapper.JskPersonCommentMapper;
+import com.jsk.zx.person.model.JskPersonComment;
+import com.jsk.zx.person.model.JskPersonCommentDetail;
+import com.jsk.zx.person.model.JskPersonCommentorAndDetail;
+import com.jsk.zx.person.service.IJskPersonCommentService;
+
+@Service
+public class JskPersonCommentServiceImpl extends BaseService implements IJskPersonCommentService {
+
+	@Autowired
+	private JskPersonCommentMapper jskPersonCommentMapper;
+	@Autowired
+	private JskSysUserMapper userMapper;
+
+	@Autowired
+	private JskPersonCommentDetailMapper jskPersonCommentDetailMapper;
+	
+	@Override
+	public ResultUtil findByRecordId(Integer recordId, String type) throws Exception {
+		ResultUtil resu = new ResultUtil();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("recordId", recordId);
+		map.put("type", type);
+		List<JskPersonCommentorAndDetail> list = jskPersonCommentMapper
+				.findByRecordId(map);
+		if (list == null || list.size() == 0) {
+			resu.setId(1);
+			resu.setMsg("还没有评论哦！");
+		} else {
+			resu.setId(0);
+			resu.setMsg("ok");
+			resu.setData(list);
+		}
+		return resu;
+	}
+
+	@Override
+	public ResultUtil saveComment(JskPersonComment jskPersonComment) {
+		ResultUtil resu = new ResultUtil();
+		if (StringUtils.isEmpty(jskPersonComment)) {
+			resu.setId(1);
+			resu.setMsg("未传入任何信息");
+			return resu;
+		}
+		jskPersonComment.setCreateTime(new Date());
+		int i = jskPersonCommentMapper.saveCommentSelective(jskPersonComment);
+		if (i == 1) {
+			updateCommentNum(jskPersonComment.getRecordId(), jskPersonComment.getType());
+			resu.setId(0);
+			resu.setMsg("评论成功");
+			return resu;
+		}
+		resu.setId(2);
+		resu.setMsg("评论失败");
+		return resu;
+	}
+
+	@Override
+	public ResultUtil saveCommentDetail(
+			JskPersonCommentDetail jskPersonCommentDetail){
+		ResultUtil resu = new ResultUtil();
+		if (StringUtils.isEmpty(jskPersonCommentDetail)
+				|| StringUtils.isEmpty(jskPersonCommentDetail.getCommentId())) {
+			resu.setId(1);
+			resu.setMsg("数据为空");
+			return resu;
+		}
+		jskPersonCommentDetail.setCreateTime(new Date());
+		int i;
+		try {
+			i = jskPersonCommentDetailMapper.saveCommentDetail(jskPersonCommentDetail);
+			if(i == 1){
+				resu.setId(0);
+				resu.setMsg("ok");
+				return resu;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resu.setId(2);
+		resu.setMsg("插入失败");
+		return resu;
+	}
+
+	@Override
+	@Transactional
+	public ResultUtil deleteComment(Integer commentId){
+		ResultUtil resu = new ResultUtil();
+		if(StringUtils.isEmpty(commentId)){
+			resu.setId(1);
+			resu.setMsg("id为空");
+			return resu;
+		}
+		try {
+			int j = jskPersonCommentMapper.deleteByPrimaryKey(commentId);
+			String pkid = commentId.toString();
+			jskPersonCommentDetailMapper.deleteByPrimaryKey(pkid);
+			if(j == 1){
+				resu.setId(0);
+				resu.setMsg("ok");
+				return resu;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resu.setId(2);
+		resu.setMsg("删除失败");
+		return resu;
+	}
+
+	@Override
+	public ResultUtil deleteCommentDetail(Integer pkId){
+		ResultUtil resu = new ResultUtil();
+		try {
+			int i = jskPersonCommentDetailMapper.deleteByPkId(pkId);
+			if(i == 1){
+				resu.setId(0);
+				resu.setMsg("ok");
+				return resu;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resu.setId(1);
+		resu.setMsg("删除失败");
+		return resu;
+	}
+
+	/**
+	 * 更新评论总数
+	 * @Title: updateCommentNum
+	 * @Description: 
+	 * @author: suojinliang
+	 * @date: 2018年7月21日 
+	 * @param productId
+	 * @param type
+	 * @return
+	 */
+	private void updateCommentNum(Integer productId, String type) {
+		if(!StringUtils.isEmpty(type) && !StringUtils.isEmpty(productId)){
+			if("5".equals(type)){
+				jskPersonCommentMapper.updateGoodproductByPrimaryKey(productId);
+			}
+			if("4".equals(type)){
+				userMapper.updateCommentNumByPrimaryKey(productId);
+			}
+			if("3".equals(type)){
+				jskPersonCommentMapper.updateMarketByPrimaryKey(productId);
+			}
+			if("2".equals(type)){
+				jskPersonCommentMapper.updateProductByPrimaryKey(productId);
+			}
+			if("1".equals(type)){
+				jskPersonCommentMapper.updateServiceByPrimaryKey(productId);
+			}
+		}
+	}
+
+}

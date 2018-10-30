@@ -1,0 +1,210 @@
+/**
+ * 
+ */
+
+package com.jsk.zx.person.service.impl;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.jsk.base.service.BaseService;
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.person.mapper.JskPersonAddressMapper;
+import com.jsk.zx.person.mapper.JskPersonOrderDetailMapper;
+import com.jsk.zx.person.mapper.JskPersonOrderMapper;
+import com.jsk.zx.person.mapper.JskPersonShopMapper;
+import com.jsk.zx.person.model.JskPersonAddress;
+import com.jsk.zx.person.model.JskPersonOrder;
+import com.jsk.zx.person.model.JskPersonOrderDetail;
+import com.jsk.zx.person.model.JskPersonShop;
+import com.jsk.zx.person.model.Order;
+import com.jsk.zx.person.model.ResuUtil;
+import com.jsk.zx.person.service.IPersonOrderService;
+
+@Service("personOrderServiceImpl")
+public class PersonOrderServiceImpl extends BaseService implements
+		IPersonOrderService {
+
+	@Autowired
+	private JskPersonOrderMapper personOrderMapper;
+	@Autowired
+	private JskPersonShopMapper shopMapper;
+	@Autowired
+	private JskPersonAddressMapper addressMapper;
+	@Autowired
+	private JskPersonOrderDetailMapper orderDetailMapper;
+
+	@Override
+	public ResultUtil findOrderById(int userId) throws Exception {
+		ResultUtil retu = new ResultUtil();
+		List<JskPersonOrder> list = new ArrayList<>();
+		List<?> listProductRecordId = personOrderMapper
+				.selectProductRecordId(userId);//通过用户ID查询查询用户索创建的商品ID
+		for (int i = 0; i < listProductRecordId.size(); i++) {
+			int recordId = (Integer) listProductRecordId.get(i);
+			String type = "1";
+			List<JskPersonOrder> productList = personOrderMapper
+					.findOrderByRecordId(recordId, type);//根据商品id和类型查询订单信息
+			list.addAll(productList);
+		}
+		List<?> listServiceRecordId = personOrderMapper
+				.selectServiceRecordId(userId);//根据用户ID查询用户所创建的服务
+		for (int i = 0; i < listServiceRecordId.size(); i++) {
+			int recordId = (Integer) listServiceRecordId.get(i);
+			String type = "2";
+			List<JskPersonOrder> serviceList = personOrderMapper
+					.findOrderByRecordId(recordId, type);//根据服务id和类型查询订单信息
+			list.addAll(serviceList);
+		}
+		/*List<?> listMarketRecordId = personOrderMapper
+				.selectMarketRecordId(userId);
+		for (int i = 0; i < listMarketRecordId.size(); i++) {
+			int recordId = (int) listMarketRecordId.get(i);
+			String type = "3";
+			List<JskPersonOrder> marketList = personOrderMapper
+					.findOrderByRecordId(recordId, type);
+			list.addAll(marketList);
+		}*/
+		list = ListSortByTime(list);
+		if (list != null && !list.isEmpty()) {
+			retu.setId(0);
+			retu.setData(list);
+			retu.setMsg("成功");
+		} else {
+			retu.setId(1);
+			retu.setMsg("没有订单");
+		}
+		return retu;
+	}
+
+	// list中的元素按时间排序
+	private static List<JskPersonOrder> ListSortByTime(List<JskPersonOrder> list) {
+		Collections.sort(list, new Comparator<JskPersonOrder>() {
+			@Override
+			public int compare(JskPersonOrder o1, JskPersonOrder o2) {
+				Date dt1 = o1.getCreateTime();
+				Date dt2 = o2.getCreateTime();
+				if (dt1.getTime() > dt2.getTime()) {
+					return -1;
+				} else if (dt1.getTime() < dt2.getTime()) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		});
+		return list;
+	}
+
+	@Override
+	public ResultUtil findPersonServiceOrderById(int userId) throws Exception {
+		ResultUtil retu = new ResultUtil();
+		List<JskPersonOrder> list = new ArrayList<>();
+		list.addAll(personOrderMapper.findServiceOrderById(userId));
+		if (list != null && !list.isEmpty()) {
+			retu.setId(0);
+			retu.setData(list);
+			retu.setMsg("成功");
+		} else {
+			retu.setId(1);
+			retu.setMsg("没有动态");
+		}
+		return retu;
+	}
+
+	@Override
+	public ResultUtil findPersonOrderById(int userId) throws Exception {
+		ResultUtil retu = new ResultUtil();
+
+		List<JskPersonOrder> list = personOrderMapper
+				.findPersonOrderById(userId);
+		if (list != null && !list.isEmpty()) {
+			retu.setId(0);
+			retu.setData(list);
+			retu.setMsg("成功");
+		} else {
+			retu.setId(1);
+			retu.setMsg("没有订单");
+		}
+		return retu;
+	}
+
+	@Override
+	public ResuUtil detailOrder(Integer id, String type, String ids) {
+		Order order = new Order();
+		ResuUtil resu = new ResuUtil();
+		JskPersonOrderDetail orderDetail = new JskPersonOrderDetail();
+		
+		String[] strings = ids.split(",");
+		order.setUserId(id);
+		order.setType(type);
+		List<JskPersonAddress> addressList = addressMapper.selectByUserKey(id);
+		List<JskPersonShop> shopList = shopMapper.findByInPkId(strings);
+		//吧购物车信息放到订单详细里
+		for (JskPersonShop jskPersonShop : shopList) {
+			orderDetail.setRecordName(jskPersonShop.getRecordName());
+			orderDetail.setRecordPrice(jskPersonShop.getRecordPrice());
+			orderDetail.setRecordPhoto(jskPersonShop.getRecordPhoto());
+			orderDetail.setRecordId(jskPersonShop.getRecordId());
+			orderDetail.setPayNum(jskPersonShop.getPayNum());
+			orderDetail.setPrice(jskPersonShop.getPayNum() * jskPersonShop.getRecordPrice());
+			order.getOrderDetailList().add(orderDetail);
+		}
+		order.setAddress(addressList);
+		resu.setStatus(0);
+		resu.setMsg("ok");
+		resu.setData(order);
+		return resu;
+	}
+
+	@Override
+	public ResuUtil saveOrder(JskPersonOrder order,
+			List<JskPersonOrderDetail> orderDetail) {
+		ResuUtil resu = new ResuUtil();
+		order.setStatus("0");
+		//生成订单号
+		String dd = new SimpleDateFormat("yyMMddHHmmss").format(new Date());
+		int i = (int) ((Math.random() * 9 + 1) * 100000);
+		String pkId = dd +i;
+		order.setPkId(pkId);
+		personOrderMapper.saveOrder(order);
+		//插入订单明细
+		for (JskPersonOrderDetail jskPersonOrderDetail : orderDetail) {
+			jskPersonOrderDetail.setOrderId(pkId);
+			jskPersonOrderDetail.setCreateTime(order.getCreateTime());
+			jskPersonOrderDetail.setUpdateTime(order.getCreateTime());
+			orderDetailMapper.saveOrderDetailSelective(jskPersonOrderDetail);
+		}
+		resu.setStatus(0);
+		resu.setMsg("ok");
+		resu.setData(i);
+		return resu;
+	}
+
+	@Override
+	public ResuUtil updateOrder(Integer orderId, String status) {
+		ResuUtil resu = new ResuUtil();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pkId", orderId);
+		map.put("status", status);
+		int i = personOrderMapper.updateOrder(map);
+		if(i > 0){
+			resu.setStatus(0);
+			resu.setMsg("ok");
+			return resu;
+		}
+		resu.setStatus(1);
+		resu.setMsg("失败");
+		return resu;
+	}
+
+}

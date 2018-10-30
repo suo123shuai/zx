@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsk.zx.person.mapper.JskPersonShopMapper">
+  <resultMap id="BaseResultMap" type="com.jsk.zx.person.model.JskPersonShop">
+    <id column="PK_ID" jdbcType="INTEGER" property="pkId" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="RECORD_ID" jdbcType="INTEGER" property="recordId" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="PAY_NUM" jdbcType="INTEGER" property="payNum" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="RECORD_NAME" jdbcType="VARCHAR" property="recordName" />
+    <result column="RECORD_PRICE" jdbcType="REAL" property="recordPrice" />
+    <result column="RECORD_PHOTO" jdbcType="VARCHAR" property="recordPhoto" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    PK_ID, USER_ID, RECORD_ID, TYPE, PAY_NUM, CREATE_TIME, RECORD_NAME, RECORD_PRICE, 
+    RECORD_PHOTO
+  </sql>
+  <select id="findServiceByUserId" parameterType="Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jsk_person_shop
+    where user_ID = #{userId,jdbcType=INTEGER}
+    and type = #{type,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="findByUserIdAndRecordId" parameterType="com.jsk.zx.person.model.JskPersonShop" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jsk_person_shop
+    where user_ID = #{userId,jdbcType=INTEGER}
+    and type = #{type,jdbcType=VARCHAR}
+    and RECORD_ID = #{recordId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByShopId" parameterType="java.lang.Integer">
+    delete from jsk_person_shop
+    where PK_ID in
+    <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+    	#{item}
+    </foreach>
+  </delete>
+  
+  <delete id="deleteByUserId" parameterType="java.lang.Integer">
+    delete from jsk_person_shop
+    where user_ID = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jsk.zx.person.model.JskPersonShop">
+    insert into jsk_person_shop (PK_ID, USER_ID, RECORD_ID, 
+      TYPE, PAY_NUM, CREATE_TIME, 
+      RECORD_NAME, RECORD_PRICE, RECORD_PHOTO
+      )
+    values (#{pkId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{recordId,jdbcType=INTEGER}, 
+      #{type,jdbcType=VARCHAR}, #{payNum,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{recordName,jdbcType=VARCHAR}, #{recordPrice,jdbcType=REAL}, #{recordPhoto,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="saveJskPersonSho" parameterType="com.jsk.zx.person.model.JskPersonShop">
+    insert into jsk_person_shop
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        PK_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="recordId != null">
+        RECORD_ID,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="payNum != null">
+        PAY_NUM,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="recordName != null">
+        RECORD_NAME,
+      </if>
+      <if test="recordPrice != null">
+        RECORD_PRICE,
+      </if>
+      <if test="recordPhoto != null">
+        RECORD_PHOTO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pkId != null">
+        #{pkId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null">
+        #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="payNum != null">
+        #{payNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordName != null">
+        #{recordName,jdbcType=VARCHAR},
+      </if>
+      <if test="recordPrice != null">
+        #{recordPrice,jdbcType=REAL},
+      </if>
+      <if test="recordPhoto != null">
+        #{recordPhoto,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateJskPersonSho" parameterType="com.jsk.zx.person.model.JskPersonShop">
+    update jsk_person_shop
+    <set>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="recordId != null">
+        RECORD_ID = #{recordId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="payNum != null">
+        PAY_NUM = #{payNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordName != null">
+        RECORD_NAME = #{recordName,jdbcType=VARCHAR},
+      </if>
+      <if test="recordPrice != null">
+        RECORD_PRICE = #{recordPrice,jdbcType=REAL},
+      </if>
+      <if test="recordPhoto != null">
+        RECORD_PHOTO = #{recordPhoto,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jsk.zx.person.model.JskPersonShop">
+    update jsk_person_shop
+    set USER_ID = #{userId,jdbcType=INTEGER},
+      RECORD_ID = #{recordId,jdbcType=INTEGER},
+      TYPE = #{type,jdbcType=VARCHAR},
+      PAY_NUM = #{payNum,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      RECORD_NAME = #{recordName,jdbcType=VARCHAR},
+      RECORD_PRICE = #{recordPrice,jdbcType=REAL},
+      RECORD_PHOTO = #{recordPhoto,jdbcType=VARCHAR}
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </update>
+</mapper>

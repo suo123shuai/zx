@@ -1,0 +1,30 @@
+package com.jsk.zx.person.service;
+
+import com.jsk.zx.person.model.OrderResult;
+
+public interface IOrderService {
+	
+	/**
+	 * @Title: saveOrder
+	 * @Description: 确认订单地址和产品
+	 * @author: suojinliang
+	 * @date: 2018年7月10日 
+	 * @param id 用户ID
+	 * @param type 产品类型
+	 * @param ids 产品id（多个id）
+	 * @return
+	 */
+	OrderResult detailOrder(Integer id, String type, String ids);
+	
+	/**
+	 * @Title: saveOrder
+	 * @Description: 提交订单
+	 * @author: suojinliang
+	 * @date: 2018年7月11日 
+	 * @param ids 产品id（多个id）
+	 * @param id 用户id
+	 * @param type 产品类型
+	 * @return
+	 */
+	OrderResult saveOrder(String ids, Integer id, String type, Integer aid);
+}

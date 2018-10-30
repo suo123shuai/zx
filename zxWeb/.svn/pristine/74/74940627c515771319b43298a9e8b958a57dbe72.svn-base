@@ -1,0 +1,17 @@
+/**
+ * 
+ */
+
+package com.jsk.zx.person.service;
+
+import com.jsk.zx.login.common.ResultUtil;
+
+public interface IPersonOrderService {
+
+	ResultUtil findPersonOrderById(int userId) throws Exception;
+
+	ResultUtil findOrderById(int userId) throws Exception;
+
+	ResultUtil findPersonServiceOrderById(int userId) throws Exception;
+
+}

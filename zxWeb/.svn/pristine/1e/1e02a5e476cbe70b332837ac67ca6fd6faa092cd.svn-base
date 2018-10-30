@@ -1,0 +1,75 @@
+/**
+ * 
+ */
+package com.jsk.zx.index.service.impl;
+
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.jsk.base.common.Constant;
+import com.jsk.base.common.UserSession;
+import com.jsk.base.util.FileUtil;
+import com.jsk.zx.index.mapper.IJskIndexTopNewsMapper;
+import com.jsk.zx.index.model.JskIndexTopNews;
+import com.jsk.zx.index.service.IJskIndexTopNewsService;
+import com.jsk.zx.sys.mapper.IJskSysAnnexMapper;
+import com.jsk.zx.sys.model.JskSysAnnex;
+import com.mltt.core.service.BaseEntityService;
+
+/**
+ * @Title: JskIndexTopNewsServiceImpl.java
+ * @Description: 大时圈 
+ * @author: lizp
+ * @date: 2018年8月1日 上午12:01:33
+ */
+@Service
+public class JskIndexTopNewsServiceImpl extends BaseEntityService<JskIndexTopNews, IJskIndexTopNewsMapper> implements IJskIndexTopNewsService {
+
+	@Autowired
+	private HttpServletRequest request;
+
+	@Autowired
+	private IJskSysAnnexMapper jskSysAnnexMapper;
+	
+	public int save(JskIndexTopNews record) {
+		UserSession us = (UserSession) request.getSession().getAttribute(Constant.USER_SESSION);
+		int result = 0;
+		if (record.getPkId() == null) {
+			record.setCreateId(us.getUser().getPkId());
+			result = mapper.insert(record);
+		} else {
+			record.setUpdateTime(new Date());
+			record.setUpdateId(us.getUser().getPkId());
+			result = mapper.update(record);
+		}
+		// 如果有附件则处理附件
+		try {
+			JskSysAnnex jskSysAnnex = FileUtil.upload(FileUtil.getPath(FileUtil.FILE_PATH_SUFFIX_INDEX),
+					record.getFile());
+			if (jskSysAnnex != null) {
+				jskSysAnnex.setCreateId(us.getUser().getPkId());
+				jskSysAnnex.setRecordId(record.getPkId());
+				jskSysAnnex.setTableName(record.getTableName());
+				jskSysAnnex.setRecordField("photo");
+				JskSysAnnex tmp = jskSysAnnexMapper.find(jskSysAnnex);
+				if(tmp != null) {
+					// 删除以前的附件
+					FileUtil.delete(FileUtil.getPath(FileUtil.FILE_PATH_SUFFIX_INDEX) + jskSysAnnex.getFileName()
+							+ jskSysAnnex.getFileSuffix());
+					jskSysAnnexMapper.deleteById(tmp.getPkId());
+				}
+				// 保存新的附件
+				jskSysAnnexMapper.insert(jskSysAnnex);
+				record.setPhoto(jskSysAnnex.getPkId());
+				mapper.update(record);
+			}
+		} catch (Exception e) {
+			logger.error("上传附件异常，异常信息：" + e);
+		}
+		return result;
+	}
+}

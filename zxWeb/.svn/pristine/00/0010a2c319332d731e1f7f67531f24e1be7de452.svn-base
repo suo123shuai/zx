@@ -1,0 +1,17 @@
+# \u7f16\u7801\u683c\u5f0f
+encoding=UTF-8
+# \u4e0b\u62c9\u6846\u9ed8\u8ba4\u663e\u793a\u5185\u5bb9
+select.default=\u8bf7\u9009\u62e9
+
+# \u5206\u9875
+# \u6bcf\u9875\u663e\u793a\u6761\u6570
+page.pageSize=10
+# \u6bcf\u9875\u663e\u793a\u6761\u6570\u4e0b\u62c9\u6846
+page.pageSizeList=10,20,50,100,500
+# \u65b9\u8a00\uff0c\u8fde\u63a5\u7684\u6570\u636e\u5e93
+jdbc.type=mysql
+
+# \u4e0a\u4f20\u9644\u4ef6\u76ee\u5f55
+file.path.prefix = c://upload
+# \u5177\u4f53\u529f\u80fd\u76ee\u5f55
+file.path.suffix.index = /index

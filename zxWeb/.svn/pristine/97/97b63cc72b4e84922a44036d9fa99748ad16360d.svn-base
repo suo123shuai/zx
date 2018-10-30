@@ -1,0 +1,30 @@
+/**
+ * 
+ */
+
+package com.jsk.zx.index.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.jsk.base.mapper.IBaseMapper;
+import com.jsk.zx.index.model.JskIndexFindWorker;
+
+public interface FindWorkerMapper extends IBaseMapper {
+
+	public List<JskIndexFindWorker> findWorkerByTheNewLogin();
+
+	public List<JskIndexFindWorker> findWorkerByTheNearest(int pkId);
+
+	public List<JskIndexFindWorker> findWorkerByTheMostPraise();
+
+	public List<JskIndexFindWorker> findWorker();
+	
+	public List<JskIndexFindWorker> findShop();
+	
+	public List<JskIndexFindWorker> selectWorkerById(int pkId);
+	
+	public List<JskIndexFindWorker> searchWorker(@Param(value="userName")String userName);
+
+}

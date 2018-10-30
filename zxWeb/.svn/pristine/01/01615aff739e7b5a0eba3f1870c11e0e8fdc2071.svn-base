@@ -1,0 +1,107 @@
+package com.jsk.zx.login.mapper;
+
+import java.util.Map;
+
+import com.jsk.base.mapper.IBaseMapper;
+import com.jsk.zx.login.model.JskSysUser;
+
+public interface JskSysUserMapper extends IBaseMapper{
+
+    int insert(JskSysUser record);
+    
+    /**
+     * 
+     * @Description:向数据库插入用户信息
+     * @param record
+     * @return
+     * 2018年6月14日
+     */
+    int saveSelective(JskSysUser record);
+
+    /**
+     * 更新评论
+     * @Title: updateByPrimaryKeySelective
+     * @Description: 
+     * @author: suojinliang
+     * @date: 2018年7月21日 
+     * @param record
+     * @return
+     */
+    int updateByPrimaryKeySelective(JskSysUser record);
+
+    /**
+     * 更新评论总数
+     * @Title: updateCommentNumByPrimaryKey
+     * @Description: 更新评论总数
+     * @author: suojinliang
+     * @date: 2018年7月22日 
+     * @param map
+     * @return
+     */
+    int updateCommentNumByPrimaryKey(Integer pkId);
+    
+    /**
+     * @Description:根据登陆名查用户
+     * @param name
+     * @return
+     * 2018年6月14日
+     */
+    JskSysUser findByPrimaryName(String name);
+    
+    /**
+     * @Title: findByPrimaryMobile
+     * @Description: 根据电话查用户
+     * @author: suojinliang
+     * @date: 2018年7月3日 
+     * @param Mobile
+     * @return
+     */
+    JskSysUser findByPrimaryMobile(String mobile);
+    
+    /**
+     * 更新用户积分
+     * @Title: updateUserIntegralNumByKey
+     * @Description: 
+     * @author: suojinliang
+     * @date: 2018年7月24日 
+     * @param userId
+     * @param integral
+     * @param integralNum
+     * @return
+     */
+    int updateUserIntegralNumByKey(Map<String, Integer> map);
+    
+    /**
+     * 查询用户信息
+     * @Title: findUserById
+     * @Description: 
+     * @author: suojinliang
+     * @date: 2018年7月25日 
+     * @param pkId
+     * @return
+     */
+    JskSysUser findUserById(Integer userId);
+    
+    /**
+     * 更新用户余额
+     * @Title: updateUserBalance
+     * @Description: 
+     * @author: suojinliang
+     * @date: 2018年7月25日 
+     * @param userId
+     * @param balance
+     * @return 
+     */
+    int updateUserBalance(Map<String, Object> map);
+    
+    /**
+     * 更新用户信息
+     * @Title: updateByKey
+     * @Description: 
+     * @author: suojinliang
+     * @date: 2018年8月1日 
+     * @param record
+     * @return
+     */
+    int updateByKey(JskSysUser record);
+}

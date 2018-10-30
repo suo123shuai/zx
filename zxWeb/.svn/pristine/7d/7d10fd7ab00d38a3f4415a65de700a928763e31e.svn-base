@@ -1,0 +1,74 @@
+package com.jsk.zx.person.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+import com.jsk.base.controller.BaseController;
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.person.model.JskPersonAddress;
+import com.jsk.zx.person.service.IPersonAddressService;
+
+
+@Controller
+@RequestMapping(value="/personAddress")
+public class PersonAddressController extends BaseController{
+	@Autowired
+	private IPersonAddressService personAddressService;
+	//地址详情查询
+	@RequestMapping("/findPersonAddressById")
+	@ResponseBody
+	public String findPersonAddressById(int pkId) {
+		ResultUtil re = new ResultUtil();
+		try {
+			re = personAddressService.findPersonAddressById(pkId);
+			System.out.println(re);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JSON.toJSONString(re);
+	}
+	
+	//新建或修改地址或默认地址
+	@RequestMapping("/createOrUpdatePersonAddress")
+	@ResponseBody
+	public String createOrUpdatePersonAddress(JskPersonAddress jskPersonAddress) {
+		ResultUtil re = new ResultUtil();
+		try {
+			re = personAddressService.createOrUpdatePersonAddress(jskPersonAddress);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JSON.toJSONString(re);
+	}
+	
+	
+	//删除地址
+	@RequestMapping("/deletePersonAddress")
+	@ResponseBody
+	public String deletePersonAddress(int pkId) {
+		ResultUtil re = new ResultUtil();
+		try {
+			re = personAddressService.deletePersonAddressById(pkId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JSON.toJSONString(re);
+	}
+
+	@RequestMapping("/findList")
+	@ResponseBody
+	public String selectByUserKey(Integer userId){
+		ResultUtil resu = null;
+		try {
+			resu = personAddressService.selectByUserKey(userId);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return JSON.toJSONString(resu);
+	}
+}

@@ -1,0 +1,19 @@
+package com.jsk.zx.index.mapper;
+
+import com.jsk.base.mapper.IBaseMapper;
+import com.jsk.zx.index.model.JskIndexUserNews;
+
+public interface JskIndexUserNewsMapper extends IBaseMapper{
+    int deleteByPrimaryKey(Integer pkId);
+
+    int insert(JskIndexUserNews record);
+
+    int saveSelective(JskIndexUserNews record);
+
+    JskIndexUserNews selectByPrimaryKey(Integer pkId);
+
+    int updateByPrimaryKeySelective(JskIndexUserNews record);
+
+    int updateByPrimaryKey(JskIndexUserNews record);
+    
+}

@@ -1,0 +1,25 @@
+package com.jsk.zx.index.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.jsk.base.service.BaseService;
+import com.jsk.zx.index.mapper.JskIndexUserNewsMapper;
+import com.jsk.zx.index.model.JskIndexUserNews;
+import com.jsk.zx.index.service.IJskIndexUserNewsService;
+
+@Service
+public class JskIndexUserNewsServiceImpl extends BaseService implements IJskIndexUserNewsService {
+
+	@Autowired
+	private JskIndexUserNewsMapper jskIndexUserNewsMapper;
+	
+	@Override
+	public int saveSelective(JskIndexUserNews record) throws Exception {
+		
+		
+		return 0;
+		
+	}
+
+}

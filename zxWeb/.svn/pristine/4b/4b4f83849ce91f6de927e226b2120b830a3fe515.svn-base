@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jsk.zx.person.mapper.JskPersonAddressMapper">
+	<resultMap id="BaseResultMap" type="com.jsk.zx.person.model.JskPersonAddress">
+		<id column="PK_ID" jdbcType="INTEGER" property="pkId" />
+		<result column="USER_ID" jdbcType="INTEGER" property="userId" />
+		<result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+		<result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+		<result column="REGION" jdbcType="VARCHAR" property="region" />
+		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+		<result column="IS_DEFAULT" jdbcType="VARCHAR" property="isDefault" />
+		<result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		PK_ID, USER_ID, USER_NAME, MOBILE, REGION, ADDRESS, IS_DEFAULT, CREATE_TIME,
+		UPDATE_TIME
+	</sql>
+	<select id="findPersonAddressById" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_person_address
+		where PK_ID = #{pkId,jdbcType=INTEGER}
+	</select>
+	<select id="selectByUserKey" parameterType="Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_person_address
+		where USER_ID = #{userId,jdbcType=INTEGER} order by IS_DEFAULT DESC
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from jsk_person_address
+		where PK_ID = #{pkId,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.jsk.zx.person.model.JskPersonAddress">
+		insert into jsk_person_address (PK_ID, USER_ID, USER_NAME,
+		MOBILE, REGION, ADDRESS,
+		IS_DEFAULT, CREATE_TIME, UPDATE_TIME
+		)
+		values (#{pkId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+		#{userName,jdbcType=VARCHAR},
+		#{mobile,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+		#{isDefault,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="createPersonAddress" parameterType="com.jsk.zx.person.model.JskPersonAddress">
+	<selectKey keyProperty="pkId" order="AFTER" resultType="java.lang.Integer">  
+      SELECT LAST_INSERT_ID()  
+	</selectKey>
+		insert into jsk_person_address
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				PK_ID,
+			</if>
+			<if test="userId != null">
+				USER_ID,
+			</if>
+			<if test="userName != null">
+				USER_NAME,
+			</if>
+			<if test="mobile != null">
+				MOBILE,
+			</if>
+			<if test="region != null">
+				REGION,
+			</if>
+			<if test="address != null">
+				ADDRESS,
+			</if>
+			<if test="isDefault != null">
+				IS_DEFAULT,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pkId != null">
+				#{pkId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="region != null">
+				#{region,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				#{address,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+				#{isDefault,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updatePersonAddress" parameterType="com.jsk.zx.person.model.JskPersonAddress">
+		update jsk_person_address
+		<set>
+			<if test="userId != null">
+				USER_ID = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="userName != null">
+				USER_NAME = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				MOBILE = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="region != null">
+				REGION = #{region,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+				IS_DEFAULT = #{isDefault,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where PK_ID = #{pkId,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.jsk.zx.person.model.JskPersonAddress">
+		update jsk_person_address
+		set USER_ID = #{userId,jdbcType=INTEGER},
+		USER_NAME = #{userName,jdbcType=VARCHAR},
+		MOBILE = #{mobile,jdbcType=VARCHAR},
+		REGION = #{region,jdbcType=VARCHAR},
+		ADDRESS = #{address,jdbcType=VARCHAR},
+		IS_DEFAULT = #{isDefault,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+		where PK_ID = #{pkId,jdbcType=INTEGER}
+	</update>
+	<delete id="deletePersonAddressById" parameterType="java.lang.Integer" >
+    delete from jsk_person_address
+    where PK_ID = #{pkId,jdbcType=INTEGER}
+  </delete>
+</mapper>

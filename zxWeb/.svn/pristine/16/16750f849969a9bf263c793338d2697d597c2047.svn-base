@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jsk.zx.index.mapper.FindServeMapper">
+	<resultMap id="BaseResultMap" type="com.jsk.zx.index.model.JskIndexFindServe">
+		<id column="sPK_ID" property="pkId" jdbcType="INTEGER" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+		<result column="sADDRESS" property="address" jdbcType="VARCHAR" />
+		<result column="AREA" property="area" jdbcType="REAL" />
+		<result column="START_DATE" property="startDate" jdbcType="DATE" />
+		<result column="END_DATE" property="endDate" jdbcType="DATE" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="SERVICE_TYPE" property="serviceType" jdbcType="VARCHAR" />
+		<result column="SERVICE_SIGN" property="serviceSign" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="PHOTO" property="photo" jdbcType="INTEGER" />
+		<result column="PRICE" property="price" jdbcType="REAL" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="PRAISE_NUM" property="praiseNum" jdbcType="INTEGER" />
+		<result column="COMMENT_NUM" property="commentNum" jdbcType="INTEGER" />
+		<result column="WORK_ID" property="workId" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="CREATE_ID" property="createId" jdbcType="INTEGER" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_ID" property="updateId" jdbcType="INTEGER" />
+		<association property="JskSysUser" column="CREATE_ID"
+			javaType="com.jsk.zx.index.model.JskSysUser">
+			<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+			<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+			<result column="MOBILE" property="mobile" jdbcType="INTEGER" />
+		</association>
+		<collection property="JskSysAnnex" javaType="java.util.List"
+			ofType="com.jsk.zx.login.model.JskSysAnnex">
+			<id column="PK_ID" property="pkId" jdbcType="INTEGER" />
+			<result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		s.PK_ID sPK_ID, s.TITLE, s.SUMMARY, s.CONTENT, s.ADDRESS
+		sADDRESS, s.AREA,
+		s.START_DATE, s.END_DATE, s.TYPE,
+		s.SERVICE_TYPE,s.REMARK,
+		s.PHOTO, s.PRICE, s.STATUS, s.PRAISE_NUM,
+		s.COMMENT_NUM, s.WORK_ID,
+		s.CREATE_TIME, s.CREATE_ID, s.UPDATE_TIME,
+		s.UPDATE_ID,u.ADDRESS,a.pk_id,a.FILE_PATH
+	</sql>
+	<select id="selectService" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_index_service s,
+		jsk_sys_user u,
+		jsk_sys_annex a
+		where
+		u.pk_id=s.create_id and s.photo=a.pk_id and s.SERVICE_TYPE =1 and s.SERVICE_SIGN=#{serviceSign}
+	</select>
+	
+	<select id="selectServiceByType" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_index_service s,
+		jsk_sys_user u,
+		jsk_sys_annex a
+		where
+		u.pk_id=s.create_id and s.photo=a.pk_id and s.SERVICE_TYPE=1 and s.SERVICE_SIGN =#{serviceSign}
+		and s.TYPE=#{type}
+	</select>
+
+	<select id="findMyService" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_index_service s
+		left join
+		jsk_sys_user u
+		on u.pk_id=s.create_id
+		left join
+		jsk_sys_annex a
+		on s.photo=a.pk_id
+		where
+		s.create_id=#{userId,jdbcType=INTEGER}
+	</select>
+	<sql id="Detail_Column_List">
+		s.PK_ID sPK_ID, s.TITLE, s.SUMMARY, s.CONTENT, s.ADDRESS
+		sADDRESS, s.AREA,
+		s.START_DATE, s.END_DATE, s.TYPE,
+		s.SERVICE_TYPE,s.REMARK,
+		s.PHOTO, s.PRICE, s.STATUS, s.PRAISE_NUM,
+		s.COMMENT_NUM, s.WORK_ID,
+		s.CREATE_TIME, s.CREATE_ID, s.UPDATE_TIME,
+		s.UPDATE_ID,a.pk_id,a.FILE_PATH,u.mobile,u.user_name
+	</sql>
+	<select id="findServiceDetail" resultMap="BaseResultMap"  parameterType="java.lang.Integer">
+		select
+		<include refid="Detail_Column_List" />
+		from jsk_index_service s
+		left join jsk_sys_annex a
+		on s.photo=a.pk_id
+		left join jsk_sys_user u 
+		on s.create_id=u.pk_id
+		where
+		s.PK_ID=#{pkId} 
+	</select>
+</mapper>

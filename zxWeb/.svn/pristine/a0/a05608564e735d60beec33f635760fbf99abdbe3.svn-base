@@ -1,0 +1,194 @@
+package com.jsk.zx.login.service.impl;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import com.jsk.base.service.BaseService;
+import com.jsk.zx.login.common.Md5Utils;
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.login.mapper.JskSysUserMapper;
+import com.jsk.zx.login.model.JskSysUser;
+import com.jsk.zx.login.model.ResuUtil;
+import com.jsk.zx.login.service.IUserService;
+import com.jsk.zx.system.mapper.UserCheckMapper;
+
+@Service
+public class UserServiceImpl extends BaseService implements IUserService {
+
+	@Autowired
+	JskSysUserMapper jskSysUserMapper;
+	@Autowired
+	UserCheckMapper userMapper;
+
+	@Override
+	/**
+	 * findByName方法  查询数据库是否存在此登录名
+	 */
+	public ResultUtil findByName(String name) {
+		ResultUtil resu = new ResultUtil();
+		if (!StringUtils.isEmpty(name)) {
+			JskSysUser user = jskSysUserMapper.findByPrimaryName(name);
+			if (user == null || "".equals(user)) {
+				resu.setId(0);
+				resu.setMsg("登录名未注册");
+			} else {
+				resu.setId(1);
+				resu.setMsg("登录名已注册");
+			}
+			return resu;
+		}
+		resu.setId(2);
+		resu.setMsg("登录名为空");
+		return resu;
+	}
+
+	@Override
+	/**
+	 * saveOrUpdateUser方法   用户的注册或修改功能
+	 */
+	public ResultUtil saveOrUpdateUser(JskSysUser jskSysUser) {
+		ResultUtil resu = new ResultUtil();
+		//jskSysUser.setLoginPwd(Md5Utils.md5(jskSysUser.getLoginPwd()));
+		Integer userId = jskSysUser.getPkId();
+		List<Integer> list = new ArrayList<Integer>();
+		if (!"".equals(userId) && (null != userId)) {
+			try {
+				jskSysUser.setUpdateTime(new Date());
+				jskSysUser.setCreateId(userId);
+				int j = jskSysUserMapper
+						.updateByKey(jskSysUser);
+				if (j <= 0) {
+					resu.setId(1);
+					resu.setMsg("修改失败");
+					return resu;
+				} else {
+					list.add(userId);
+					resu.setId(0);
+					resu.setMsg("修改成功");
+					resu.setData(list);
+					return resu;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				jskSysUser.setCreateTime(new Date());
+				int i = jskSysUserMapper.saveSelective(jskSysUser);
+
+				if (i == 0) {
+					resu.setId(1);
+					resu.setMsg("注册失败");
+					return resu;
+				} else {
+					list.add(jskSysUser.getPkId());
+					resu.setId(0);
+					resu.setMsg("注册成功");
+					resu.setData(list);
+					return resu;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return resu;
+	}
+
+	@Override
+	public ResultUtil userLogin(String loginName, String loginPwd)
+			throws Exception {
+		ResultUtil resu = new ResultUtil();
+		List<JskSysUser> list = new ArrayList<JskSysUser>();
+		if(StringUtils.isEmpty(loginPwd) || StringUtils.isEmpty(loginName)){
+			resu.setId(3);
+			resu.setMsg("登录名或密码为空");
+			return resu;
+		}
+		JskSysUser user = jskSysUserMapper.findByPrimaryName(loginName);
+		if (StringUtils.isEmpty(user)) {
+			resu.setId(2);
+			resu.setMsg("登陆名未注册");
+			return resu;
+		} else if (!user.getLoginPwd().equals(Md5Utils.md5(loginPwd))) {
+			resu.setId(1);
+			resu.setMsg("密码错误");
+			return resu;
+		}
+		list.add(user);
+		resu.setId(0);
+		resu.setMsg("登陆成功");
+		resu.setData(list);
+		return resu;
+	}
+
+	@Override
+	public ResuUtil mobileLogin(String mobile) throws Exception {
+		ResuUtil resu = new ResuUtil();
+		if(StringUtils.isEmpty(mobile)){
+			resu.setStatus(3);;
+			resu.setMsg("电话为空");
+			return resu;
+		}
+		JskSysUser user = jskSysUserMapper.findByPrimaryMobile(mobile);
+		if(!StringUtils.isEmpty(user)){
+			resu.setStatus(0);;
+			resu.setMsg("已注册");
+			resu.setUserId(user.getPkId());
+			return resu;
+		}
+		resu.setStatus(1);;
+		resu.setMsg("未注册");
+		return resu;
+	}
+
+	@Override
+	public ResultUtil updateCommentNum(Map<String, Object> map) {
+		
+		return null;
+	}
+	
+	public ResultUtil findUserInfoById(Integer pkId) {
+		ResultUtil retu = new ResultUtil();
+		List<com.jsk.zx.system.model.JskSys1User> list =new ArrayList<com.jsk.zx.system.model.JskSys1User>();
+		if(pkId !=null ){
+		 list = userMapper.findUserInfoById(pkId);
+		}
+		if (list != null && !list.isEmpty()) {
+			retu.setId(0);
+			retu.setData(list);
+			retu.setMsg("成功");
+		} else {
+			retu.setId(1);
+			retu.setMsg("没有该用户");
+		}
+		return retu;
+	}
+
+	@Override
+	public ResultUtil updateUserInfoById(JskSysUser jskSysUser)
+			throws Exception {
+		ResultUtil resu = new ResultUtil();
+		int j = jskSysUserMapper
+				.updateByPrimaryKeySelective(jskSysUser);
+		if (j == 0) {
+			resu.setId(3);
+			resu.setMsg("修改失败");
+		} else {
+			resu.setId(2);
+			resu.setMsg("修改成功");
+		}
+		return resu;
+	}
+
+	@Override
+	public ResultUtil findUserById(Integer pkId) throws Exception {
+		
+		return null;
+	}
+}

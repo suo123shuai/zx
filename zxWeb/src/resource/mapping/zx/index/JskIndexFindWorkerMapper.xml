@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jsk.zx.index.mapper.FindWorkerMapper">
+	<resultMap id="BaseResultMap" type="com.jsk.zx.index.model.JskIndexFindWorker">
+		<id column="PK_ID" property="pkId" jdbcType="INTEGER" />
+		<id column="CREATE_ID" property="createId" jdbcType="INTEGER" />
+		<result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
+		<result column="LOGIN_PWD" property="loginPwd" jdbcType="VARCHAR" />
+		<result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+		<result column="NICK_NAME" property="nickName" jdbcType="VARCHAR" />
+		<result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+		<result column="TELEPHONE" property="telephone" jdbcType="VARCHAR" />
+		<result column="SEX" property="sex" jdbcType="VARCHAR" />
+		<result column="EMAIL" property="email" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="REASON" property="reason" jdbcType="VARCHAR" />
+		<result column="TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="IDENTIFY" property="identify" jdbcType="VARCHAR" />
+		<result column="AGE" property="age" jdbcType="INTEGER" />
+		<result column="CITY" property="city" jdbcType="VARCHAR" />
+		<result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+		<result column="WORK_TYPE" property="workType" jdbcType="VARCHAR" />
+		<result column="WORK_TYPE_SMALL" property="workTypeSmall" jdbcType="VARCHAR" />
+		<result column="IDENTIFY_FACAD" property="identifyFacad" jdbcType="INTEGER" />
+		<result column="IDENTIFY_BACK" property="identifyBack" jdbcType="INTEGER" />
+		<result column="CARD_PHOTO" property="cardPhoto" jdbcType="INTEGER" />
+		<result column="HEAD_PHOTO" property="headPhoto" jdbcType="INTEGER" />
+		<result column="SKILL" property="skill" jdbcType="VARCHAR" />
+		<result column="SPACE" property="space" jdbcType="VARCHAR" />
+		<result column="APPRAISE" property="appraise" jdbcType="VARCHAR" />
+		<result column="PERMIT_PHOTO" property="permitPhoto" jdbcType="INTEGER" />
+		<result column="COMPANY_SPACE" property="companySpace" jdbcType="VARCHAR" />
+		<result column="COMPANY_TYPE" property="companyType" jdbcType="VARCHAR" />
+		<result column="PRODUCT" property="product" jdbcType="VARCHAR" />
+		<result column="BANKCARD_id" property="bankcardId" jdbcType="INTEGER" />
+		<result column="PRAISE_NUM" property="praiseNum" jdbcType="INTEGER" />
+		<result column="COMMENT_NUM" property="commentNum" jdbcType="INTEGER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_ID" property="updateId" jdbcType="INTEGER" />
+		<result column="FIND_TYPE" property="findType" jdbcType="VARCHAR" />
+		<collection property="JskSysAnnex" javaType="java.util.List"
+			ofType="com.jsk.zx.login.model.JskSysAnnex">
+			<id column="aPK_ID" property="pkId" jdbcType="INTEGER" />
+			<result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+		</collection>
+		<collection property="JskIndexWork" javaType="java.util.List"
+			ofType="com.jsk.zx.index.model.JskIndexWork">
+			<id column="wPK_ID" property="pkId" jdbcType="INTEGER" />
+			<result column="WORK_NAME" property="workName" jdbcType="VARCHAR" />
+		</collection>	
+	</resultMap>
+	<sql id="Base_Column_List">
+		u.PK_ID,  u.LOGIN_NAME,  u.USER_NAME, u.NICK_NAME,
+		u.SEX,  u.TYPE, u.CITY, u.ADDRESS,
+		u.WORK_TYPE, u.WORK_TYPE_SMALL, u.CARD_PHOTO, u.HEAD_PHOTO, u.SKILL, u.SPACE,
+		u.APPRAISE, u.AGE,u.MOBILE,
+		u.COMPANY_SPACE, u.COMPANY_TYPE, u.PRODUCT,  u.PRAISE_NUM,
+		u.COMMENT_NUM, u.CREATE_TIME,a.FILE_PATH,a.PK_ID aPK_Id
+	</sql>
+	<sql id="Worker_Column_List">
+		u.PK_ID,  u.LOGIN_NAME,  u.USER_NAME, u.NICK_NAME,
+		u.SEX,  u.TYPE, u.CITY, u.ADDRESS,
+		u.WORK_TYPE, u.WORK_TYPE_SMALL, u.CARD_PHOTO, u.HEAD_PHOTO, u.SKILL, u.SPACE,
+		u.APPRAISE, u.AGE,
+		u.COMPANY_SPACE, u.COMPANY_TYPE, u.PRODUCT,  u.PRAISE_NUM,
+		u.COMMENT_NUM, u.CREATE_TIME,a.FILE_PATH,a.PK_ID aPK_Id,w.PK_ID wPK_ID,  group_concat(w.WORK_NAME) as WORK_NAME
+	</sql>
+
+	<select id="findWorkerByTheNearest" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_sys_user u
+		LEFT JOIN
+		jsk_sys_annex a
+		ON u.head_photo=a.pk_id
+		WHERE u.TYPE='1' and u.CITY=(select city from jsk_sys_user where
+		PK_ID=#{pkId,jdbcType=INTEGER})
+		ORDER BY u.PK_ID desc
+	</select>
+
+	<select id="findWorkerByTheNewLogin" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_sys_user u
+		left join
+		jsk_sys_annex a
+		on u.head_photo=a.pk_id
+		where u.TYPE='1'
+		ORDER BY CREATE_TIME DESC
+	</select>
+	<select id="findWorkerByTheMostPraise" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_sys_user u
+		left join
+		jsk_sys_annex a
+		on u.head_photo=a.pk_id
+		where u.TYPE='1'
+		ORDER BY PRAISE_NUM DESC
+	</select>
+
+	<select id="findWorker" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_sys_user u
+		left join
+		jsk_sys_annex a
+		on u.head_photo=a.pk_id
+		where u.TYPE='1'
+		ORDER BY u.PK_ID desc
+	</select>
+	<select id="findShop" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_sys_user u
+		left join
+		jsk_sys_annex a
+		on u.head_photo=a.pk_id
+		where u.TYPE='2'
+		ORDER BY u.PK_ID desc
+	</select>
+	
+	<select id="selectWorkerById" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Worker_Column_List" />
+		from jsk_sys_user u
+		LEFT JOIN jsk_sys_annex a ON u.HEAD_PHOTO = a.PK_ID
+        LEFT JOIN jsk_user_work i ON i.USER_ID = u.PK_ID
+        LEFT JOIN jsk_index_work w ON i.WORK_ID = w.PK_ID
+        WHERE
+	      u.PK_ID = #{pkId}
+	     group by u.PK_ID
+	</select>
+	
+	<select id="searchWorker" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select * FROM(select 
+    <include refid="Worker_Column_List" />
+    from jsk_sys_user u
+		LEFT JOIN jsk_sys_annex a ON u.HEAD_PHOTO = a.PK_ID
+        LEFT JOIN jsk_user_work i ON i.USER_ID = u.PK_ID
+        LEFT JOIN jsk_index_work w ON i.WORK_ID = w.PK_ID
+        GROUP  BY u.PK_ID) as user
+    where  USER_NAME LIKE concat(concat('%',#{userName}),'%') or WORK_NAME LIKE concat(concat('%',#{userName}),'%')
+  </select>
+</mapper>

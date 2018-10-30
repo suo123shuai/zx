@@ -1,0 +1,47 @@
+package com.jsk.zx.person.service;
+
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.person.model.JskPersonTransferDetail;
+import com.jsk.zx.person.model.ResuUtil;
+
+public interface IPersonTransferDetailService {
+	
+	ResultUtil  selectPersonTrancsferDetail(int userId);
+	
+	/**
+	 * 插入转账明细
+	 * @Title: savseUser
+	 * @Description: 
+	 * @author: suojinliang
+	 * @date: 2018年7月25日 
+	 * @param userId
+	 * @return
+	 */
+	ResultUtil savsePersonTrancsferDetail(Integer userId, float balance, String transferName);
+	
+	/**
+	 * 查询转账明细
+	 * @Title: findByTrancsferDetail
+	 * @Description: 
+	 * @author: suojinliang
+	 * @date: 2018年7月26日 
+	 * @param pkId
+	 * @return
+	 */
+	JskPersonTransferDetail findByTrancsferDetail(Integer pkId);
+	
+	
+	ResultUtil  selectPersonTrancsferDetailByType();
+	
+	/**
+	 * 更新转账明细状态
+	 * @Title: updatePersonTrancsferDetailByType
+	 * @Description: 
+	 * @author: suojinliang
+	 * @date: 2018年7月27日 
+	 * @param userId
+	 * @param type
+	 * @return
+	 */
+	ResuUtil updatePersonTrancsferDetailByType(Integer userId, String type);
+}

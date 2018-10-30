@@ -1,0 +1,19 @@
+package com.jsk.zx.login.service;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.jsk.zx.login.common.ResultUtil;
+import com.jsk.zx.login.model.JskSysAnnexs;
+
+public interface IPhotoService {
+
+	/**
+	 * addPhotoGetPkID方法， 添加图片并得到该图片的PkId
+	 * 
+	 * @param jskSysAnnex
+	 * @return
+	 * @throws Exception
+	 */
+	ResultUtil addPhotoGetPkID(JskSysAnnexs jskSysAnnex, HttpServletRequest request) throws Exception;
+	
+}

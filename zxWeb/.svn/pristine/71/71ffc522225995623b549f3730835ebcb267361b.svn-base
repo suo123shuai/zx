@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jsk.zx.index.mapper.RecommendMapper">
+	<resultMap id="BaseResultMap" type="com.jsk.zx.index.model.JskIndexRecommend">
+		<id column="PK_ID" property="pkId" jdbcType="INTEGER" />
+		<result column="TITLE" property="title" jdbcType="VARCHAR" />
+		<result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
+		<result column="CONTENT" property="content" jdbcType="VARCHAR" />
+		<result column="NUMBER" property="number" jdbcType="INTEGER" />
+		<result column="PHOTO" property="photo" jdbcType="INTEGER" />
+		<result column="IS_SHOW" property="isShow" jdbcType="OTHER" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="CREATE_ID" property="createId" jdbcType="INTEGER" />
+		<result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_ID" property="updateId" jdbcType="INTEGER" />
+		<collection property="JskSysAnnex" javaType="java.util.List"
+			ofType="com.jsk.zx.login.model.JskSysAnnex">
+			<id column="PK_ID" property="pkId" jdbcType="INTEGER" />
+			<result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	<sql id="Base_Column_List">
+		r.PK_ID rPK_ID, r.TITLE, r.SUMMARY, r.CONTENT, r.NUMBER, r.PHOTO, r.IS_SHOW, r.CREATE_TIME,
+		r.CREATE_ID, r.UPDATE_TIME,
+		r.UPDATE_ID,a.FILE_PATH
+	</sql>
+	<select id="selectRecommend" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jsk_index_recommend r
+		left join jsk_sys_annex a on r.PHOTO=a.PK_ID
+	</select>
+</mapper>
